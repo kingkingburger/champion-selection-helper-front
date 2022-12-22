@@ -35,3 +35,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## 🚀 0.0.2
 
 - 챔피언 초상화 띄우기
+
+## 🚀 0.0.3
+
+- 챔피언 이미지 위에 마우스 올려다 놓는 이밴트 작성
