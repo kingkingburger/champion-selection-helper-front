@@ -9,8 +9,9 @@
           style="width: 50px; height: 50px"
           v-on:mouseover="handleMouseover(index)"
         />
-        <div>{{ bestRate }}</div>
       </li>
+      <div>{{ bestRate }}</div>
+      <div>{{ apiResult }}</div>
     </ul>
     <!-- <li v-for="champ in championJson" :key="champ.name"></li> -->
   </div>
@@ -26,7 +27,8 @@ export default defineComponent({
     const champions: champ[] = [];
     const lolVersion = "12.24.1";
     const bestRate = "";
-    return { champions, lolVersion, bestRate };
+    const apiResult = {};
+    return { champions, lolVersion, bestRate, apiResult };
   },
   async mounted() {
     const response = (
@@ -37,17 +39,13 @@ export default defineComponent({
     this.champions = response.data;
   },
   methods: {
-    // async getData() {
-    //   const response = await (
-    //     await axios.get<championData>(
-    //       `https://ddragon.leagueoflegends.com/cdn/12.23.1/data/ko_KR/champion.json`
-    //     )
-    //   ).data;
-    //   this.champions = response.data;
-    // },
-    handleMouseover(championIndex: number) {
-      // this.champions.find((data) => data === name) = "123";
-      console.log(championIndex);
+    async handleMouseover(championIndex: number) {
+      this.bestRate = this.champions[championIndex].name;
+      console.log(this.bestRate);
+      const response = await axios.get<championData>(
+        `http://localhost:3586/champion/name/${this.bestRate}`
+      );
+      this.apiResult = response.data;
     },
   },
 });

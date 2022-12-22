@@ -39,3 +39,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## 🚀 0.0.3
 
 - 챔피언 이미지 위에 마우스 올려다 놓는 이밴트 작성
+
+## 🚀 0.0.4
+
+- 이미지 위에 올려두면 api 서버 호출하는 이밴트 적용
