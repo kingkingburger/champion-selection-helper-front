@@ -2,12 +2,14 @@
   <div class="hello">
     <!-- <button @click="getData">Get Data</button> -->
     <ul>
-      <li v-for="champ in champions" :key="champ.name">
+      <li v-for="(champ, index) in champions" :key="champ.name">
         {{ champ.name }}
         <img
-          :src="`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/champion/${champ.image.full}`"
+          :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champ.image.full}`"
           style="width: 50px; height: 50px"
+          v-on:mouseover="handleMouseover(index)"
         />
+        <div>{{ bestRate }}</div>
       </li>
     </ul>
     <!-- <li v-for="champ in championJson" :key="champ.name"></li> -->
@@ -22,7 +24,9 @@ export default defineComponent({
   name: "CampionHome",
   data() {
     const champions: champ[] = [];
-    return { champions };
+    const lolVersion = "12.24.1";
+    const bestRate = "";
+    return { champions, lolVersion, bestRate };
   },
   async mounted() {
     const response = (
@@ -41,6 +45,10 @@ export default defineComponent({
     //   ).data;
     //   this.champions = response.data;
     // },
+    handleMouseover(championIndex: number) {
+      // this.champions.find((data) => data === name) = "123";
+      console.log(championIndex);
+    },
   },
 });
 
@@ -51,6 +59,7 @@ interface championData {
 interface champ {
   name: string;
   image: any;
+  bestRate1: string;
 }
 </script>
 
