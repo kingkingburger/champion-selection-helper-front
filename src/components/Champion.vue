@@ -9,11 +9,12 @@
           style="width: 50px; height: 50px"
           v-on:mouseover="handleMouseover(index)"
         />
+        <div v-if="champ.name === overedChampion">
+          {{ apiResult }}
+        </div>
       </li>
       <div>{{ bestRate }}</div>
-      <div>{{ apiResult }}</div>
     </ul>
-    <!-- <li v-for="champ in championJson" :key="champ.name"></li> -->
   </div>
 </template>
 
@@ -25,15 +26,16 @@ export default defineComponent({
   name: "CampionHome",
   data() {
     const champions: champ[] = [];
-    const lolVersion = "12.24.1";
+    const lolVersion = "12.23.1";
     const bestRate = "";
     const apiResult = {};
-    return { champions, lolVersion, bestRate, apiResult };
+    const overedChampion = ""; // 선택된 챔피언
+    return { champions, lolVersion, bestRate, apiResult, overedChampion };
   },
   async mounted() {
     const response = (
       await axios.get<championData>(
-        `https://ddragon.leagueoflegends.com/cdn/12.23.1/data/ko_KR/champion.json`
+        `https://ddragon.leagueoflegends.com/cdn/${this.lolVersion}/data/ko_KR/champion.json`
       )
     ).data;
     this.champions = response.data;
@@ -41,11 +43,14 @@ export default defineComponent({
   methods: {
     async handleMouseover(championIndex: number) {
       this.bestRate = this.champions[championIndex].name;
+      this.overedChampion = this.bestRate; //선택된 챔피언들 넣기
       console.log(this.bestRate);
       const response = await axios.get<championData>(
         `http://localhost:3586/champion/name/${this.bestRate}`
       );
-      this.apiResult = response.data;
+      // 결과값 반환되는 곳
+      const responseJson = response.data as Record<string, any>;
+      this.apiResult = responseJson[0]; //
     },
   },
 });
