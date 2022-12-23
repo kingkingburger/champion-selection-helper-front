@@ -43,3 +43,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## 🚀 0.0.4
 
 - 이미지 위에 올려두면 api 서버 호출하는 이밴트 적용
+
+## 🚀 0.0.4
+
+- 마우스 올려둔 챔피언만 화면에 정보 표시
