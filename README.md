@@ -47,3 +47,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## 🚀 0.0.4
 
 - 마우스 올려둔 챔피언만 화면에 정보 표시
+
+## 🚀 0.0.5
+
+- 챔피언의 어려운적, 쉬운적 표시
