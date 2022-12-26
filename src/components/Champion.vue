@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="hello champion">
     <!-- <button @click="getData">Get Data</button> -->
     <ul>
       <li v-for="(champ, index) in champions" :key="champ.name">
@@ -9,13 +9,13 @@
           style="width: 50px; height: 50px"
           v-on:mouseover="handleMouseover(index)"
         />
-        <div v-if="champ.name === overedChampion">
+        <div class="champion-info" v-if="champ.name === overedChampion">
           <!-- {{ apiResult }} -->
-          여려운적
+          <span class="hard-champion">어려운적</span>
           <div>{{ worst1Name }} : {{ worst1Rate }}</div>
           <div>{{ worst2Name }} : {{ worst2Rate }}</div>
           <div>{{ worst3Name }} : {{ worst3Rate }}</div>
-          쉬운적
+          <span class="easy-champion">쉬운적</span>
           <div>{{ great1Name }} : {{ great1Rate }}</div>
           <div>{{ great2Name }} : {{ great2Rate }}</div>
           <div>{{ great3Name }} : {{ great3Rate }}</div>
@@ -50,10 +50,6 @@ export default defineComponent({
     const great1Rate = "";
     const great2Rate = "";
     const great3Rate = "";
-    // "worst1Name": "워윅", "worst2Name": "다리우스", "worst3Name":
-    //"일라오이", "worst1Rate": "37.62%", "worst2Rate": "39.94%", "worst3Rate": "42.37%",
-    // "great1Name": "아칼리", "great2Name": "리븐", "great3Name": "요네", "great1Rate": "61.93%",
-    //"great2Rate": "61.36%", "great3Rate": "56.59%"
     return {
       champions,
       lolVersion,
@@ -104,7 +100,6 @@ export default defineComponent({
       this.great1Rate = responseJson[0].championRateName.great1Rate;
       this.great2Rate = responseJson[0].championRateName.great2Rate;
       this.great3Rate = responseJson[0].championRateName.great3Rate;
-      // this.apiResult = responseJson[0].championRateName; //
     },
   },
 });
@@ -135,5 +130,23 @@ li {
 }
 a {
   color: #42b983;
+}
+
+.champion {
+  width: 1500px;
+}
+
+.champion-info {
+  border: 1px solid;
+  border-radius: 20px;
+  padding: 10px 10px 10px 10px;
+}
+
+.hard-champion {
+  color: brown;
+}
+
+.easy-champion {
+  color: aquamarine;
 }
 </style>
