@@ -55,3 +55,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## 🚀 0.0.6
 
 - 챔피언 상세정보 css로 꾸며주기
+
+## 🚀 0.0.7
+
+- 상세정보 포지션 고정로 변경해서 보기 편하게하기
