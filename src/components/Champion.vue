@@ -20,6 +20,7 @@
           <div>{{ great2Name }} : {{ great2Rate }}</div>
           <div>{{ great3Name }} : {{ great3Rate }}</div>
         </div>
+        <div v-else></div>
       </li>
       <div>{{ bestRate }}</div>
     </ul>
@@ -137,6 +138,8 @@ a {
 }
 
 .champion-info {
+  position: absolute;
+  background-color: aliceblue;
   border: 1px solid;
   border-radius: 20px;
   padding: 10px 10px 10px 10px;
