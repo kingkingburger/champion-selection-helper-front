@@ -59,3 +59,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## 🚀 0.0.7
 
 - 상세정보 포지션 고정로 변경해서 보기 편하게하기
+
+## 🚀 0.0.8
+
+- vue에 bootstrap 적용해서 챔피언 초상화 보여주기
