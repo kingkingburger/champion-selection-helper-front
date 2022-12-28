@@ -1,14 +1,23 @@
 <template>
-  <div class="hello champion">
+  <div class="hello">
+    <button class="btn btn-secondary">버튼</button>
     <!-- <button @click="getData">Get Data</button> -->
-    <ul>
-      <li v-for="(champ, index) in champions" :key="champ.name">
-        {{ champ.name }}
+    <ul class="row">
+      <li
+        v-for="(champ, index) in champions"
+        :key="champ.name"
+        class="col-1 p-2"
+      >
+        <!-- <div> style="width: 50px; height: 50px"-->
         <img
           :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champ.image.full}`"
-          style="width: 50px; height: 50px"
           v-on:mouseover="handleMouseover(index)"
+          v-on:mouseleave="handleMouseleave"
+          class="img-thumbnail"
         />
+        <span class="fw-bold badge bg-primary text-center text-truncate">
+          {{ champ.name }}
+        </span>
         <div class="champion-info" v-if="champ.name === overedChampion">
           <!-- {{ apiResult }} -->
           <span class="hard-champion">어려운적</span>
@@ -21,7 +30,9 @@
           <div>{{ great3Name }} : {{ great3Rate }}</div>
         </div>
         <div v-else></div>
+        <!-- </div> -->
       </li>
+
       <div>{{ bestRate }}</div>
     </ul>
   </div>
@@ -32,6 +43,7 @@ import { defineComponent } from "vue";
 import axios from "axios";
 
 export default defineComponent({
+  compatConfig: { MODE: 3 },
   name: "CampionHome",
   data() {
     const champions: champ[] = [];
@@ -102,6 +114,9 @@ export default defineComponent({
       this.great2Rate = responseJson[0].championRateName.great2Rate;
       this.great3Rate = responseJson[0].championRateName.great3Rate;
     },
+    handleMouseleave() {
+      this.overedChampion = "";
+    },
   },
 });
 
@@ -133,9 +148,9 @@ a {
   color: #42b983;
 }
 
-.champion {
+/* .champion {
   width: 1500px;
-}
+} */
 
 .champion-info {
   position: absolute;
