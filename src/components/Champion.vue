@@ -21,42 +21,44 @@
           <div class="champion-info" v-if="champ.name === overedChampion">
             <!-- {{ apiResult }} -->
             <span class="hard-champion">어려운적</span>
+            <!-- 여려운적3개 + 이미지-->
             <div>
               <img
                 :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${worst1NameImage}`"
-                class="img-thumbnail"
+                class="img-thumbnail champion-verse"
               />
               {{ worst1Name }} : {{ worst1Rate }}
             </div>
             <div>
               <img
                 :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${worst2NameImage}`"
-                class="img-thumbnail"
+                class="img-thumbnail champion-verse"
               />{{ worst2Name }} : {{ worst2Rate }}
             </div>
             <div>
               <img
                 :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${worst3NameImage}`"
-                class="img-thumbnail"
+                class="img-thumbnail champion-verse"
               />{{ worst3Name }} : {{ worst3Rate }}
             </div>
             <span class="easy-champion">쉬운적</span>
+            <!-- 쉬운적3개 + 이미지-->
             <div>
               <img
                 :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${great1NameImage}`"
-                class="img-thumbnail"
+                class="img-thumbnail champion-verse"
               />{{ great1Name }} : {{ great1Rate }}
             </div>
             <div>
               <img
                 :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${great2NameImage}`"
-                class="img-thumbnail"
+                class="img-thumbnail champion-verse"
               />{{ great2Name }} : {{ great2Rate }}
             </div>
             <div>
               <img
                 :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${great3NameImage}`"
-                class="img-thumbnail"
+                class="img-thumbnail champion-verse"
               />{{ great3Name }} : {{ great3Rate }}
             </div>
           </div>
@@ -164,10 +166,10 @@ export default defineComponent({
           this.worst1NameImage = `${key}.png`;
         }
         if (this.champions[key].name === this.worst2Name) {
-          this.worst1NameImage = `${key}.png`;
+          this.worst2NameImage = `${key}.png`;
         }
         if (this.champions[key].name === this.worst3Name) {
-          this.worst1NameImage = `${key}.png`;
+          this.worst3NameImage = `${key}.png`;
         }
         if (this.champions[key].name === this.great1Name) {
           this.great1NameImage = `${key}.png`;
@@ -232,5 +234,9 @@ a {
 
 .easy-champion {
   color: aquamarine;
+}
+
+.champion-verse {
+  width: 3rem;
 }
 </style>

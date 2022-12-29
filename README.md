@@ -67,3 +67,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## 🚀 0.0.9
 
 - 어려운적, 쉬운적 이미지 같이 보여주기
+
+## 🚀 0.0.10
+
+- 어려운적, 쉬운적 이미지 같이 보여주기 수정, 옆에 조합 보여줄 컴포넌트 생성
