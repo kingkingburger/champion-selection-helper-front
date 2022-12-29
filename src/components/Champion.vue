@@ -1,40 +1,71 @@
 <template>
   <div class="hello">
-    <button class="btn btn-secondary">버튼</button>
     <!-- <button @click="getData">Get Data</button> -->
-    <ul class="row">
-      <li
-        v-for="(champ, index) in champions"
-        :key="champ.name"
-        class="col-1 p-2"
-      >
-        <!-- <div> style="width: 50px; height: 50px"-->
-        <img
-          :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champ.image.full}`"
-          v-on:mouseover="handleMouseover(index)"
-          v-on:mouseleave="handleMouseleave"
-          class="img-thumbnail"
-        />
-        <span class="fw-bold badge bg-primary text-center text-truncate">
-          {{ champ.name }}
-        </span>
-        <div class="champion-info" v-if="champ.name === overedChampion">
-          <!-- {{ apiResult }} -->
-          <span class="hard-champion">어려운적</span>
-          <div>{{ worst1Name }} : {{ worst1Rate }}</div>
-          <div>{{ worst2Name }} : {{ worst2Rate }}</div>
-          <div>{{ worst3Name }} : {{ worst3Rate }}</div>
-          <span class="easy-champion">쉬운적</span>
-          <div>{{ great1Name }} : {{ great1Rate }}</div>
-          <div>{{ great2Name }} : {{ great2Rate }}</div>
-          <div>{{ great3Name }} : {{ great3Rate }}</div>
-        </div>
-        <div v-else></div>
-        <!-- </div> -->
-      </li>
-
-      <div>{{ bestRate }}</div>
-    </ul>
+    <div class="container">
+      <ul class="row">
+        <li
+          v-for="(champ, index) in champions"
+          :key="champ.name"
+          class="col-1 p-2"
+        >
+          <!-- <div> style="width: 50px; height: 50px"-->
+          <img
+            :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champ.image.full}`"
+            v-on:mouseover="handleMouseover(index)"
+            v-on:mouseleave="handleMouseleave"
+            class="img-thumbnail"
+          />
+          <span class="fw-bold badge bg-primary text-center text-truncate">
+            {{ champ.name }}
+          </span>
+          <div class="champion-info" v-if="champ.name === overedChampion">
+            <!-- {{ apiResult }} -->
+            <span class="hard-champion">어려운적</span>
+            <div>
+              <img
+                :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${worst1NameImage}`"
+                class="img-thumbnail"
+              />
+              {{ worst1Name }} : {{ worst1Rate }}
+            </div>
+            <div>
+              <img
+                :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${worst2NameImage}`"
+                class="img-thumbnail"
+              />{{ worst2Name }} : {{ worst2Rate }}
+            </div>
+            <div>
+              <img
+                :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${worst3NameImage}`"
+                class="img-thumbnail"
+              />{{ worst3Name }} : {{ worst3Rate }}
+            </div>
+            <span class="easy-champion">쉬운적</span>
+            <div>
+              <img
+                :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${great1NameImage}`"
+                class="img-thumbnail"
+              />{{ great1Name }} : {{ great1Rate }}
+            </div>
+            <div>
+              <img
+                :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${great2NameImage}`"
+                class="img-thumbnail"
+              />{{ great2Name }} : {{ great2Rate }}
+            </div>
+            <div>
+              <img
+                :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${great3NameImage}`"
+                class="img-thumbnail"
+              />{{ great3Name }} : {{ great3Rate }}
+            </div>
+          </div>
+          <div v-else></div>
+          <!-- </div> -->
+        </li>
+        <div>{{ bestRate }}</div>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -63,6 +94,12 @@ export default defineComponent({
     const great1Rate = "";
     const great2Rate = "";
     const great3Rate = "";
+    const worst1NameImage = ""; // 어려운적1 이미지 경로(이미지.png)
+    const worst2NameImage = ""; // 어려운적2 이미지 경로(이미지.png)
+    const worst3NameImage = ""; // 어려운적3 이미지 경로(이미지.png)
+    const great1NameImage = ""; // 쉬운적1 이미지 경로(이미지.png)
+    const great2NameImage = ""; // 쉬운적2 이미지 경로(이미지.png)
+    const great3NameImage = ""; // 쉬운적3 이미지 경로(이미지.png)
     return {
       champions,
       lolVersion,
@@ -81,6 +118,12 @@ export default defineComponent({
       great1Rate,
       great2Rate,
       great3Rate,
+      worst1NameImage,
+      worst2NameImage,
+      worst3NameImage,
+      great1NameImage,
+      great2NameImage,
+      great3NameImage,
     };
   },
   async mounted() {
@@ -93,12 +136,13 @@ export default defineComponent({
   },
   methods: {
     async handleMouseover(championIndex: number) {
-      this.bestRate = this.champions[championIndex].name;
+      this.bestRate = this.champions[championIndex].name; // 선택된 챔피언 인덱스로 이름 가져오기
       this.overedChampion = this.bestRate; //선택된 챔피언들 넣기
       console.log(this.bestRate);
       const response = await axios.get<championData>(
         `http://localhost:3586/champion/name/${this.bestRate}`
-      );
+      ); // 어려운적, 쉬운적 받아오는 api
+
       // 결과값 반환되는 곳
       const responseJson = response.data as Record<string, any>;
       this.worst1Name = responseJson[0].championRateName.worst1Name;
@@ -113,6 +157,28 @@ export default defineComponent({
       this.great1Rate = responseJson[0].championRateName.great1Rate;
       this.great2Rate = responseJson[0].championRateName.great2Rate;
       this.great3Rate = responseJson[0].championRateName.great3Rate;
+
+      // 이름을 가지고 image 찾는 로직
+      for (const key in this.champions) {
+        if (this.champions[key].name === this.worst1Name) {
+          this.worst1NameImage = `${key}.png`;
+        }
+        if (this.champions[key].name === this.worst2Name) {
+          this.worst1NameImage = `${key}.png`;
+        }
+        if (this.champions[key].name === this.worst3Name) {
+          this.worst1NameImage = `${key}.png`;
+        }
+        if (this.champions[key].name === this.great1Name) {
+          this.great1NameImage = `${key}.png`;
+        }
+        if (this.champions[key].name === this.great2Name) {
+          this.great2NameImage = `${key}.png`;
+        }
+        if (this.champions[key].name === this.great3Name) {
+          this.great3NameImage = `${key}.png`;
+        }
+      }
     },
     handleMouseleave() {
       this.overedChampion = "";
