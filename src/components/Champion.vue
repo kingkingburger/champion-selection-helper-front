@@ -1,7 +1,7 @@
 <template>
-  <div class="hello">
+  <div class="row">
     <!-- <button @click="getData">Get Data</button> -->
-    <div class="col-6 container">
+    <div class="col-10 container">
       <ul class="row">
         <li
           v-for="(champ, index) in champions"
@@ -63,9 +63,9 @@
           <div v-else></div>
           <!-- </div> -->
         </li>
-        <div>{{ bestRate }}</div>
       </ul>
     </div>
+    <BanRecomend class="col-2" :championName="choiseChampion"></BanRecomend>
   </div>
 </template>
 
@@ -77,10 +77,14 @@ import axios from "axios";
 export default defineComponent({
   compatConfig: { MODE: 3 },
   name: "CampionHome",
+  //다른 컴포넌트를 쓰고 싶을 때
+  components: {
+    BanRecomend,
+  },
   data() {
     const champions: champ[] = [];
     const lolVersion = "12.23.1";
-    const bestRate = "";
+    const choiseChampion = "";
     const apiResult = {};
     const overedChampion = ""; // 선택된 챔피언
     const worst1Name = "";
@@ -104,7 +108,7 @@ export default defineComponent({
     return {
       champions,
       lolVersion,
-      bestRate,
+      choiseChampion,
       apiResult,
       overedChampion,
       worst1Name,
@@ -137,13 +141,12 @@ export default defineComponent({
   },
   methods: {
     async handleMouseover(championIndex: number) {
-      this.bestRate = this.champions[championIndex].name; // 선택된 챔피언 인덱스로 이름 가져오기
-      this.overedChampion = this.bestRate; //선택된 챔피언들 넣기
-      console.log(this.bestRate);
+      this.choiseChampion = this.champions[championIndex].name; // 선택된 챔피언 인덱스로 이름 가져오기
+      this.overedChampion = this.choiseChampion; //선택된 챔피언들 넣기
+      console.log(this.choiseChampion);
       const response = await axios.get<championData>(
-        `http://localhost:3586/champion/name/${this.bestRate}`
+        `http://localhost:3586/champion/name/${this.choiseChampion}`
       ); // 어려운적, 쉬운적 받아오는 api
-
       // 결과값 반환되는 곳
       const responseJson = response.data as Record<string, any>;
       this.worst1Name = responseJson[0].championRateName.worst1Name;
@@ -158,7 +161,6 @@ export default defineComponent({
       this.great1Rate = responseJson[0].championRateName.great1Rate;
       this.great2Rate = responseJson[0].championRateName.great2Rate;
       this.great3Rate = responseJson[0].championRateName.great3Rate;
-
       // 이름을 가지고 image 찾는 로직
       for (const key in this.champions) {
         if (this.champions[key].name === this.worst1Name) {

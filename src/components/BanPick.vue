@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div>안녕하세요</div>
-    <div>테스트</div>
-    <button>{{ name }}</button>
+    <div>챔피언 이름 : {{ championName }}</div>
   </div>
 </template>
 
@@ -14,6 +12,9 @@ export default defineComponent({
   name: "BanRecomend",
   data() {
     return { name: "공통버튼" };
+  },
+  props: {
+    championName: String,
   },
 });
 </script>
