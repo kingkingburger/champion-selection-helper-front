@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <!-- <button @click="getData">Get Data</button> -->
-    <div class="container">
+    <div class="col-6 container">
       <ul class="row">
         <li
           v-for="(champ, index) in champions"
@@ -71,6 +71,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import BanRecomend from "@/components/BanPick.vue";
 import axios from "axios";
 
 export default defineComponent({
@@ -164,10 +165,10 @@ export default defineComponent({
           this.worst1NameImage = `${key}.png`;
         }
         if (this.champions[key].name === this.worst2Name) {
-          this.worst1NameImage = `${key}.png`;
+          this.worst2NameImage = `${key}.png`;
         }
         if (this.champions[key].name === this.worst3Name) {
-          this.worst1NameImage = `${key}.png`;
+          this.worst3NameImage = `${key}.png`;
         }
         if (this.champions[key].name === this.great1Name) {
           this.great1NameImage = `${key}.png`;

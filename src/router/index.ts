@@ -1,11 +1,20 @@
-import ChampionVue from "@/components/Champion.vue";
+import CampionHomes from "@/views/Champion.vue";
+// import CampionHome from "@/components/Champion.vue";
+import BanRecomend from "@/components/BanPick.vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "CampionHome",
-    component: ChampionVue,
+    name: "CampionHomes",
+    component: CampionHomes,
+    // children: [
+    //   {
+    //     path: "banpick",
+    //     name: "BanRecomend",
+    //     component: BanRecomend,
+    //   },
+    // ],
   },
   {
     path: "/about",

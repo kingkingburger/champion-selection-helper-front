@@ -71,3 +71,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## 🚀 0.0.10
 
 - 어려운적, 쉬운적 이미지 같이 보여주기 수정, 옆에 조합 보여줄 컴포넌트 생성
+
+## 🚀 0.0.11
+
+- view 페이징 안에 2개의 컴포넌트 넣어보기
