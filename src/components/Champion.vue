@@ -1,62 +1,57 @@
 <template>
   <div class="row">
     <!-- <button @click="getData">Get Data</button> -->
-    <div class="col-10 container">
+    <div class="col-11 container">
       <ul class="row">
-        <li
-          v-for="(champ, index) in champions"
-          :key="champ.name"
-          class="col-1 p-2"
-        >
+        <li v-for="(champ, index) in champions" :key="champ.name" class="col-2">
           <!-- <div> style="width: 50px; height: 50px"-->
           <img
             :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champ.image.full}`"
             v-on:mouseover="handleMouseover(index)"
             v-on:mouseleave="handleMouseleave"
-            class="img-thumbnail"
+            class="img-thumbnail chamption-info-img"
           />
           <span class="fw-bold badge bg-primary text-center text-truncate">
             {{ champ.name }}
           </span>
           <div class="champion-info" v-if="champ.name === overedChampion">
-            <!-- {{ apiResult }} -->
             <span class="hard-champion">어려운적</span>
             <div>
               <img
                 :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${worst1NameImage}`"
-                class="img-thumbnail"
+                class="img-thumbnail chamption-info-img"
               />
               {{ worst1Name }} : {{ worst1Rate }}
             </div>
             <div>
               <img
                 :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${worst2NameImage}`"
-                class="img-thumbnail"
+                class="img-thumbnail chamption-info-img"
               />{{ worst2Name }} : {{ worst2Rate }}
             </div>
             <div>
               <img
                 :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${worst3NameImage}`"
-                class="img-thumbnail"
+                class="img-thumbnail chamption-info-img"
               />{{ worst3Name }} : {{ worst3Rate }}
             </div>
             <span class="easy-champion">쉬운적</span>
             <div>
               <img
                 :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${great1NameImage}`"
-                class="img-thumbnail"
+                class="img-thumbnail chamption-info-img"
               />{{ great1Name }} : {{ great1Rate }}
             </div>
             <div>
               <img
                 :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${great2NameImage}`"
-                class="img-thumbnail"
+                class="img-thumbnail chamption-info-img"
               />{{ great2Name }} : {{ great2Rate }}
             </div>
             <div>
               <img
                 :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${great3NameImage}`"
-                class="img-thumbnail"
+                class="img-thumbnail chamption-info-img"
               />{{ great3Name }} : {{ great3Rate }}
             </div>
           </div>
@@ -65,7 +60,7 @@
         </li>
       </ul>
     </div>
-    <BanRecomend class="col-2" :championName="choiseChampion"></BanRecomend>
+    <BanRecomend class="col-1" :championName="choiseChampion"></BanRecomend>
   </div>
 </template>
 
@@ -235,5 +230,8 @@ a {
 
 .easy-champion {
   color: aquamarine;
+}
+.chamption-info-img {
+  width: 5rem;
 }
 </style>

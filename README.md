@@ -1,5 +1,3 @@
-# tttt
-
 ## Project setup
 
 ```
@@ -11,22 +9,6 @@ npm install
 ```
 npm run serve
 ```
-
-### Compiles and minifies for production
-
-```
-npm run build
-```
-
-### Lints and fixes files
-
-```
-npm run lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## 🚀 0.0.1
 
@@ -79,3 +61,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## 🚀 0.0.12
 
 - 자식 컴포넌트에 챔피언 이름 전달하기
+
+## 🚀 0.0.13
+
+- 상세 챔피언들 이미지 크기 조정
