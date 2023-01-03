@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <!-- <button @click="getData">Get Data</button> -->
-    <div class="col-7 container">
+    <div class="col-8">
       <ul class="row">
         <li v-for="(champ, index) in champions" :key="champ.name" class="col-2">
           <!-- <div> style="width: 50px; height: 50px"-->
@@ -10,7 +10,7 @@
               :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champ.image.full}`"
               v-on:mouseover="handleMouseover(index)"
               v-on:mouseleave="handleMouseleave"
-              @click="clickChampion"
+              @click="clickChampion(index)"
               class="img-thumbnail mx-auto chamption-info-img"
             />
             <div class="fw-bold badge bg-primary text-center text-truncate">
@@ -64,7 +64,7 @@
         </li>
       </ul>
     </div>
-    <BanRecomend class="col-2" :championName="choiseChampion"></BanRecomend>
+    <BanRecomend class="col-4" :championName="checkChamp"></BanRecomend>
   </div>
 </template>
 
@@ -187,8 +187,9 @@ export default defineComponent({
     handleMouseleave() {
       this.overedChampion = "";
     },
-    clickChampion() {
-      this.checkChamp;
+    clickChampion(championIndex: number) {
+      this.checkChamp = this.champions[championIndex].name; // 선택된 챔피언 인덱스로 이름 가져오기
+      console.log(this.checkChamp);
     },
   },
 });
