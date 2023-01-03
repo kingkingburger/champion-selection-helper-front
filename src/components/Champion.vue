@@ -13,6 +13,7 @@
             :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champ.image.full}`"
             v-on:mouseover="handleMouseover(index)"
             v-on:mouseleave="handleMouseleave"
+            @click="clickChampion"
             class="img-thumbnail"
           />
           <span class="fw-bold badge bg-primary text-center text-truncate">
@@ -105,6 +106,7 @@ export default defineComponent({
     const great1NameImage = ""; // 쉬운적1 이미지 경로(이미지.png)
     const great2NameImage = ""; // 쉬운적2 이미지 경로(이미지.png)
     const great3NameImage = ""; // 쉬운적3 이미지 경로(이미지.png)
+    const checkChamp = ""; // 클릭한 챔피언
     return {
       champions,
       lolVersion,
@@ -129,6 +131,7 @@ export default defineComponent({
       great1NameImage,
       great2NameImage,
       great3NameImage,
+      checkChamp,
     };
   },
   async mounted() {
@@ -185,6 +188,9 @@ export default defineComponent({
     },
     handleMouseleave() {
       this.overedChampion = "";
+    },
+    clickChampion() {
+      this.checkChamp;
     },
   },
 });
