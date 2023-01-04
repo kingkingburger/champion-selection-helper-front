@@ -64,7 +64,11 @@
         </li>
       </ul>
     </div>
-    <BanRecomend class="col-4" :championName="checkChamp"></BanRecomend>
+    <BanRecomend
+      class="col-4"
+      :championName="checkChamp"
+      :propChampionImage="propChampionImage"
+    ></BanRecomend>
   </div>
 </template>
 
@@ -105,6 +109,7 @@ export default defineComponent({
     const great2NameImage = ""; // 쉬운적2 이미지 경로(이미지.png)
     const great3NameImage = ""; // 쉬운적3 이미지 경로(이미지.png)
     const checkChamp = ""; // 클릭한 챔피언
+    const propChampionImage = ""; // 클릭한 챔피언의 이미지
     return {
       champions,
       lolVersion,
@@ -130,6 +135,7 @@ export default defineComponent({
       great2NameImage,
       great3NameImage,
       checkChamp,
+      propChampionImage,
     };
   },
   async mounted() {
@@ -188,8 +194,8 @@ export default defineComponent({
       this.overedChampion = "";
     },
     clickChampion(championIndex: number) {
+      this.propChampionImage = this.champions[championIndex].image.full; // 선택된 챔피언의 영어 닉네임
       this.checkChamp = this.champions[championIndex].name; // 선택된 챔피언 인덱스로 이름 가져오기
-      console.log(this.checkChamp);
     },
   },
 });

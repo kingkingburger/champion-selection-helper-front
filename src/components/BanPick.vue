@@ -1,6 +1,12 @@
 <template>
   <div>
     <div>챔피언 이름 : {{ championName }}</div>
+    <div>
+      <img
+        :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${propChampionImage}`"
+        class="img-thumbnail chamption-info-img"
+      />
+    </div>
   </div>
 </template>
 
@@ -11,10 +17,12 @@ export default defineComponent({
   // compatConfig: { MODE: 3 },
   name: "BanRecomend",
   data() {
-    return { name: "공통버튼" };
+    const lolVersion = "12.23.1";
+    return { lolVersion };
   },
   props: {
     championName: String,
+    propChampionImage: String, // 부모에서 받아온 이미지 경로(이미지.png)
   },
 });
 </script>
