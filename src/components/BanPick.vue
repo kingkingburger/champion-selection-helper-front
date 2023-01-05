@@ -6,6 +6,22 @@
         :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${propChampionImage}`"
         class="img-thumbnail chamption-info-img"
       />
+      <img
+        :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${randomChampion1}`"
+        class="img-thumbnail chamption-info-img"
+      />
+      <img
+        :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${randomChampion2}`"
+        class="img-thumbnail chamption-info-img"
+      />
+      <img
+        :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${randomChampion3}`"
+        class="img-thumbnail chamption-info-img"
+      />
+      <img
+        :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${randomChampion4}`"
+        class="img-thumbnail chamption-info-img"
+      />
     </div>
   </div>
 </template>
@@ -23,6 +39,10 @@ export default defineComponent({
   props: {
     championName: String,
     propChampionImage: String, // 부모에서 받아온 이미지 경로(이미지.png)
+    randomChampion1: String, // 부모에서 받아온 랜덤 이미지 경로(이미지.png)
+    randomChampion2: String, // 부모에서 받아온 랜덤 이미지 경로(이미지.png)
+    randomChampion3: String, // 부모에서 받아온 랜덤 이미지 경로(이미지.png)
+    randomChampion4: String, // 부모에서 받아온 랜덤 이미지 경로(이미지.png)
   },
 });
 </script>

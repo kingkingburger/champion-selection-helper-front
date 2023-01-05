@@ -68,6 +68,10 @@
       class="col-4"
       :championName="checkChamp"
       :propChampionImage="propChampionImage"
+      :randomChampion1="randomChampion1"
+      :randomChampion2="randomChampion2"
+      :randomChampion3="randomChampion3"
+      :randomChampion4="randomChampion4"
     ></BanRecomend>
   </div>
 </template>
@@ -110,6 +114,11 @@ export default defineComponent({
     const great3NameImage = ""; // 쉬운적3 이미지 경로(이미지.png)
     const checkChamp = ""; // 클릭한 챔피언
     const propChampionImage = ""; // 클릭한 챔피언의 이미지
+    const randomChampion1 = ""; // 랜덤 챔피언1
+    const randomChampion2 = ""; // 랜덤 챔피언2
+    const randomChampion3 = ""; // 랜덤 챔피언3
+    const randomChampion4 = ""; // 랜덤 챔피언4
+    const championEngName: string[] = []; // 챔피언의 영어이름을 저장하기위한 배열
     return {
       champions,
       lolVersion,
@@ -136,6 +145,11 @@ export default defineComponent({
       great3NameImage,
       checkChamp,
       propChampionImage,
+      randomChampion1,
+      randomChampion2,
+      randomChampion3,
+      randomChampion4,
+      championEngName,
     };
   },
   async mounted() {
@@ -145,12 +159,15 @@ export default defineComponent({
       )
     ).data;
     this.champions = response.data;
+    // 챔피언의 영어이름을 저장하기
+    for (const key in this.champions) {
+      this.championEngName.push(key);
+    }
   },
   methods: {
     async handleMouseover(championIndex: number) {
       this.choiseChampion = this.champions[championIndex].name; // 선택된 챔피언 인덱스로 이름 가져오기
       this.overedChampion = this.choiseChampion; //선택된 챔피언들 넣기
-      console.log(this.choiseChampion);
       const response = await axios.get<championData>(
         `http://localhost:3586/champion/name/${this.choiseChampion}`
       ); // 어려운적, 쉬운적 받아오는 api
@@ -196,6 +213,20 @@ export default defineComponent({
     clickChampion(championIndex: number) {
       this.propChampionImage = this.champions[championIndex].image.full; // 선택된 챔피언의 영어 닉네임
       this.checkChamp = this.champions[championIndex].name; // 선택된 챔피언 인덱스로 이름 가져오기
+
+      // 랜덤한 챔피언 영어이름으로 자식 컴포넌트에 보내주기
+      this.randomChampion1 = `${
+        this.championEngName[Math.floor(Math.random() * 100)]
+      }.png`;
+      this.randomChampion2 = `${
+        this.championEngName[Math.floor(Math.random() * 100)]
+      }.png`;
+      this.randomChampion3 = `${
+        this.championEngName[Math.floor(Math.random() * 100)]
+      }.png`;
+      this.randomChampion4 = `${
+        this.championEngName[Math.floor(Math.random() * 100)]
+      }.png`;
     },
   },
 });
