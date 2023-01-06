@@ -2,26 +2,40 @@
   <div>
     <div>챔피언 이름 : {{ championName }}</div>
     <div>
-      <img
-        :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${propChampionImage}`"
-        class="img-thumbnail chamption-info-img"
-      />
-      <img
-        :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${randomChampion1}`"
-        class="img-thumbnail chamption-info-img"
-      />
-      <img
-        :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${randomChampion2}`"
-        class="img-thumbnail chamption-info-img"
-      />
-      <img
-        :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${randomChampion3}`"
-        class="img-thumbnail chamption-info-img"
-      />
-      <img
-        :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${randomChampion4}`"
-        class="img-thumbnail chamption-info-img"
-      />
+      <div>
+        <img
+          :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${propChampionImage}`"
+          class="img-thumbnail chamption-info-img"
+        />
+      </div>
+
+      <div>
+        <img
+          :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${randomChampion1}`"
+          class="img-thumbnail chamption-info-img"
+        />
+      </div>
+
+      <div>
+        <img
+          :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${randomChampion2}`"
+          class="img-thumbnail chamption-info-img"
+        />
+      </div>
+
+      <div>
+        <img
+          :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${randomChampion3}`"
+          class="img-thumbnail chamption-info-img"
+        />
+      </div>
+
+      <div>
+        <img
+          :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${randomChampion4}`"
+          class="img-thumbnail chamption-info-img"
+        />
+      </div>
     </div>
   </div>
 </template>
