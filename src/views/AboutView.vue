@@ -2,6 +2,20 @@ import BanRecomend from '@/components/BanPick.vue';
 <template>
   <div class="about">
     <h1>This is an about page</h1>
-    <BanRecomend />
+    <div class="dropdown">
+      <button
+        class="btn btn-secondary dropdown-toggle"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        Dropdown button
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item">test</a></li>
+        <li><a class="dropdown-item">Another action</a></li>
+        <li><a class="dropdown-item">Something else here</a></li>
+      </ul>
+    </div>
   </div>
 </template>

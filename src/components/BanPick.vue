@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div>챔피언 이름 : {{ championName }}</div>
+    <div class="randomBanPickTtile">랜덤 조합기!</div>
+    <span>챔피언을 클릭하면 나옵니다</span>
+    <div>기준 챔피언 이름 : {{ championName }}</div>
     <div>
       <div>
         <img
@@ -96,5 +98,9 @@ a {
 
 .easy-champion {
   color: aquamarine;
+}
+.randomBanPickTtile {
+  color: brown;
+  size: 100px;
 }
 </style>

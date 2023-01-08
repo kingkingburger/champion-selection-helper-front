@@ -1,62 +1,89 @@
 <template>
   <div class="row">
-    <!-- <button @click="getData">Get Data</button> -->
-    <div class="col-8">
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+      <div
+        id="liveToast"
+        class="toast"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="toast-header">
+          <strong class="me-auto">Bootstrap</strong>
+          <small>11 mins ago</small>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="toast-body">Hello, world! This is a toast message.</div>
+      </div>
+    </div>
+    <div class="col-10">
       <ul class="row">
-        <li v-for="(champ, index) in champions" :key="champ.name" class="col-2">
-          <!-- <div> style="width: 50px; height: 50px"-->
+        <li v-for="(champ, index) in champions" :key="champ.name" class="col-1">
           <div class="row">
             <img
               :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champ.image.full}`"
-              v-on:mouseover="handleMouseover(index)"
+              v-on:click="handleMouseover(index)"
               v-on:mouseleave="handleMouseleave"
               @click="clickChampion(index)"
               class="img-thumbnail mx-auto chamption-info-img"
             />
-            <div class="fw-bold badge bg-primary text-center text-truncate">
+            <div
+              class="fw-bold badge bg-primary text-center text-truncate mx-auto"
+            >
               {{ champ.name }}
             </div>
           </div>
 
-          <div class="champion-info" v-if="champ.name === overedChampion">
-            <span class="hard-champion">어려운적</span>
-            <div>
-              <img
-                :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${worst1NameImage}`"
-                class="img-thumbnail chamption-info-img"
-              />
-              {{ worst1Name }} : {{ worst1Rate }}
-            </div>
-            <div>
-              <img
-                :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${worst2NameImage}`"
-                class="img-thumbnail chamption-info-img"
-              />{{ worst2Name }} : {{ worst2Rate }}
-            </div>
-            <div>
-              <img
-                :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${worst3NameImage}`"
-                class="img-thumbnail chamption-info-img"
-              />{{ worst3Name }} : {{ worst3Rate }}
-            </div>
-            <span class="easy-champion">쉬운적</span>
-            <div>
-              <img
-                :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${great1NameImage}`"
-                class="img-thumbnail chamption-info-img"
-              />{{ great1Name }} : {{ great1Rate }}
-            </div>
-            <div>
-              <img
-                :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${great2NameImage}`"
-                class="img-thumbnail chamption-info-img"
-              />{{ great2Name }} : {{ great2Rate }}
-            </div>
-            <div>
-              <img
-                :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${great3NameImage}`"
-                class="img-thumbnail chamption-info-img"
-              />{{ great3Name }} : {{ great3Rate }}
+          <div
+            class="position-fixed top-0 end-0 p-3 bg-success text-dark bg-opacity-10"
+            aria-live="assertive"
+            aria-atomic="true"
+            v-if="champ.name === overedChampion"
+          >
+            <div class="row">
+              <div class="col">
+                <span class="hard-champion">어려운적</span>
+
+                <div
+                  v-for="(champinfo, index) in worstArray"
+                  :key="index"
+                  class="row"
+                >
+                  <img
+                    :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champinfo}`"
+                    class="img-thumbnail chamption-info-img col-4"
+                  />
+
+                  <span class="col"
+                    >{{ worstNameArray[index] }}
+                    {{ worstRateArray[index] }}</span
+                  >
+                </div>
+              </div>
+
+              <div class="col">
+                <span class="easy-champion">쉬운적</span>
+                <div
+                  v-for="(champinfo, index) in greatArray"
+                  :key="index"
+                  class="row"
+                >
+                  <img
+                    :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champinfo}`"
+                    class="img-thumbnail chamption-info-img col-4"
+                  />
+
+                  <span class="col"
+                    >{{ greatNameArray[index] }}
+                    {{ greatRateArray[index] }}</span
+                  >
+                </div>
+              </div>
             </div>
           </div>
           <div v-else></div>
@@ -65,7 +92,7 @@
       </ul>
     </div>
     <BanRecomend
-      class="col-4"
+      class="col"
       :championName="checkChamp"
       :propChampionImage="propChampionImage"
       :randomChampion1="randomChampion1"
@@ -82,7 +109,6 @@ import BanRecomend from "@/components/BanPick.vue";
 import axios from "axios";
 
 export default defineComponent({
-  compatConfig: { MODE: 3 },
   name: "CampionHome",
   //다른 컴포넌트를 쓰고 싶을 때
   components: {
@@ -119,6 +145,12 @@ export default defineComponent({
     const randomChampion3 = ""; // 랜덤 챔피언3
     const randomChampion4 = ""; // 랜덤 챔피언4
     const championEngName: string[] = []; // 챔피언의 영어이름을 저장하기위한 배열
+    const worstArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
+    const worstNameArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
+    const worstRateArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
+    const greatArray: string[] = []; // 상대하기 쉬운것 3개 모아둔곳
+    const greatNameArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
+    const greatRateArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
     return {
       champions,
       lolVersion,
@@ -150,8 +182,16 @@ export default defineComponent({
       randomChampion3,
       randomChampion4,
       championEngName,
+      worstArray,
+      greatArray,
+      worstNameArray,
+      worstRateArray,
+      greatNameArray,
+      greatRateArray,
     };
   },
+  compatConfig: { MODE: 3 },
+
   async mounted() {
     const response = (
       await axios.get<championData>(
@@ -185,30 +225,60 @@ export default defineComponent({
       this.great1Rate = responseJson[0].championRateName.great1Rate;
       this.great2Rate = responseJson[0].championRateName.great2Rate;
       this.great3Rate = responseJson[0].championRateName.great3Rate;
+
+      //어려운거 3개 모아두기
+
+      //쉬운거 3개 모아두기
+
       // 이름을 가지고 image 찾는 로직
       for (const key in this.champions) {
         if (this.champions[key].name === this.worst1Name) {
           this.worst1NameImage = `${key}.png`;
+          this.worstArray.push(this.worst1NameImage);
+          this.worstNameArray.push(this.worst1Name);
+          this.worstRateArray.push(this.worst1Rate);
         }
         if (this.champions[key].name === this.worst2Name) {
           this.worst2NameImage = `${key}.png`;
+          this.worstArray.push(this.worst2NameImage);
+          this.worstRateArray.push(this.worst2Rate);
+          this.worstNameArray.push(this.worst2Name);
         }
         if (this.champions[key].name === this.worst3Name) {
           this.worst3NameImage = `${key}.png`;
+          this.worstArray.push(this.worst3NameImage);
+          this.worstRateArray.push(this.worst3Rate);
+          this.worstNameArray.push(this.worst3Name);
         }
         if (this.champions[key].name === this.great1Name) {
           this.great1NameImage = `${key}.png`;
+          this.greatNameArray.push(this.great1Name);
+          this.greatRateArray.push(this.great1Rate);
+          this.greatArray.push(this.great1NameImage);
         }
         if (this.champions[key].name === this.great2Name) {
           this.great2NameImage = `${key}.png`;
+          this.greatNameArray.push(this.great2Name);
+          this.greatRateArray.push(this.great2Rate);
+          this.greatArray.push(this.great2NameImage);
         }
         if (this.champions[key].name === this.great3Name) {
           this.great3NameImage = `${key}.png`;
+          this.greatNameArray.push(this.great3Name);
+          this.greatRateArray.push(this.great3Rate);
+          this.greatArray.push(this.great3NameImage);
         }
       }
     },
     handleMouseleave() {
       this.overedChampion = "";
+      // 마우스 때면 챔피언 정보들 초기화
+      this.worstArray = [];
+      this.worstNameArray = [];
+      this.worstRateArray = [];
+      this.greatArray = [];
+      this.greatNameArray = [];
+      this.greatRateArray = [];
     },
     clickChampion(championIndex: number) {
       this.propChampionImage = this.champions[championIndex].image.full; // 선택된 챔피언의 영어 닉네임
