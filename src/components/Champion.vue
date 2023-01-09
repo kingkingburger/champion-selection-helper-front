@@ -21,7 +21,7 @@
         <div class="toast-body">Hello, world! This is a toast message.</div>
       </div>
     </div>
-    <div class="col-10">
+    <div class="col-8">
       <ul class="row">
         <li v-for="(champ, index) in champions" :key="champ.name" class="col-1">
           <div class="row">
@@ -85,13 +85,22 @@
                 </div>
               </div>
             </div>
+            <BanRecomend
+              class="col"
+              :championName="checkChamp"
+              :propChampionImage="propChampionImage"
+              :randomChampion1="randomChampion1"
+              :randomChampion2="randomChampion2"
+              :randomChampion3="randomChampion3"
+              :randomChampion4="randomChampion4"
+            ></BanRecomend>
           </div>
           <div v-else></div>
           <!-- </div> -->
         </li>
       </ul>
     </div>
-    <BanRecomend
+    <!-- <BanRecomend
       class="col"
       :championName="checkChamp"
       :propChampionImage="propChampionImage"
@@ -99,7 +108,7 @@
       :randomChampion2="randomChampion2"
       :randomChampion3="randomChampion3"
       :randomChampion4="randomChampion4"
-    ></BanRecomend>
+    ></BanRecomend> -->
   </div>
 </template>
 
