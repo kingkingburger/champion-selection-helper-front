@@ -96,19 +96,9 @@
             ></BanRecomend>
           </div>
           <div v-else></div>
-          <!-- </div> -->
         </li>
       </ul>
     </div>
-    <!-- <BanRecomend
-      class="col"
-      :championName="checkChamp"
-      :propChampionImage="propChampionImage"
-      :randomChampion1="randomChampion1"
-      :randomChampion2="randomChampion2"
-      :randomChampion3="randomChampion3"
-      :randomChampion4="randomChampion4"
-    ></BanRecomend> -->
   </div>
 </template>
 
