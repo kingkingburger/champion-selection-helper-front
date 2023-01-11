@@ -28,7 +28,6 @@
             <img
               :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champ.image.full}`"
               v-on:click="handleMouseover(index)"
-              v-on:mouseleave="handleMouseleave"
               @click="clickChampion(index)"
               class="img-thumbnail mx-auto chamption-info-img"
             />
@@ -205,6 +204,7 @@ export default defineComponent({
   },
   methods: {
     async handleMouseover(championIndex: number) {
+      this.initChampionData();
       this.choiseChampion = this.champions[championIndex].name; // 선택된 챔피언 인덱스로 이름 가져오기
       this.overedChampion = this.choiseChampion; //선택된 챔피언들 넣기
       const response = await axios.get<championData>(
@@ -269,7 +269,7 @@ export default defineComponent({
         }
       }
     },
-    handleMouseleave() {
+    initChampionData() {
       this.overedChampion = "";
       // 마우스 때면 챔피언 정보들 초기화
       this.worstArray = [];
