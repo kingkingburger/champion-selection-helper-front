@@ -114,7 +114,7 @@ export default defineComponent({
   },
   data() {
     const champions: champ[] = [];
-    const lolVersion = "12.23.1";
+    const lolVersion = ""; // lol 버전
     const choiseChampion = "";
     const apiResult = {};
     const overedChampion = ""; // 선택된 챔피언
@@ -191,6 +191,10 @@ export default defineComponent({
   compatConfig: { MODE: 3 },
 
   async mounted() {
+    this.lolVersion = await (
+      await axios.get(`http://localhost:3586/champion/version`)
+    ).data;
+
     const response = (
       await axios.get<championData>(
         `https://ddragon.leagueoflegends.com/cdn/${this.lolVersion}/data/ko_KR/champion.json`
