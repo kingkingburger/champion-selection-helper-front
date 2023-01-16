@@ -1,26 +1,5 @@
 <template>
   <div class="row">
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-      <div
-        id="liveToast"
-        class="toast"
-        role="alert"
-        aria-live="assertive"
-        aria-atomic="true"
-      >
-        <div class="toast-header">
-          <strong class="me-auto">Bootstrap</strong>
-          <small>11 mins ago</small>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="toast"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="toast-body">Hello, world! This is a toast message.</div>
-      </div>
-    </div>
     <div class="col-8">
       <ul class="row">
         <li v-for="(champ, index) in champions" :key="champ.name" class="col-1">
@@ -35,6 +14,11 @@
               class="fw-bold badge bg-primary text-center text-truncate mx-auto"
             >
               {{ champ.name }}
+            </div>
+            <div
+              class="fw-bold badge bg-primary text-center text-truncate mx-auto"
+            >
+              {{ champ.line }}
             </div>
           </div>
 
@@ -200,10 +184,20 @@ export default defineComponent({
         `https://ddragon.leagueoflegends.com/cdn/${this.lolVersion}/data/ko_KR/champion.json`
       )
     ).data;
+
+    const responseByMadeApi = await (
+      await axios.get<Array<champInfo>>(`http://localhost:3586/champion`)
+    ).data;
+
     this.champions = response.data;
+
     // 챔피언의 영어이름을 저장하기
     for (const key in this.champions) {
       this.championEngName.push(key);
+      // 챔피언의 라인을 저장하기
+      responseByMadeApi.forEach((info) => {
+        if (info.engName === key) this.champions[key].line = info.line || "";
+      });
     }
   },
   methods: {
@@ -312,6 +306,34 @@ interface champ {
   name: string;
   image: any;
   bestRate1: string;
+  line: string;
+}
+
+interface champInfo {
+  id?: number;
+  key?: number;
+  name?: string;
+  engName?: string;
+  line?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
+  championRateName?: {
+    id?: number;
+    name?: string;
+    worst1Name?: string;
+    worst2Name?: string;
+    worst3Name?: string;
+    worst1Rate?: string;
+    worst2Rate?: string;
+    worst3Rate?: string;
+    great1Name?: string;
+    great2Name?: string;
+    great3Name?: string;
+    great1Rate?: string;
+    great2Rate?: string;
+    great3Rate?: string;
+  };
 }
 </script>
 
