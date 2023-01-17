@@ -2,84 +2,86 @@
   <div class="row">
     <div class="col-8">
       <ul class="row">
-        <li v-for="(champ, index) in champions" :key="champ.name" class="col-1">
-          <div class="row">
-            <img
-              :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champ.image.full}`"
-              v-on:click="handleMouseover(index)"
-              @click="clickChampion(index)"
-              class="img-thumbnail mx-auto chamption-info-img"
-            />
-            <div
-              class="fw-bold badge bg-primary text-center text-truncate mx-auto"
-            >
-              {{ champ.name }}
-            </div>
-            <div
-              class="fw-bold badge bg-primary text-center text-truncate mx-auto"
-            >
-              {{ champ.line }}
-            </div>
-          </div>
-
-          <div
-            class="position-fixed top-0 end-0 p-3 bg-success text-dark bg-opacity-10"
-            aria-live="assertive"
-            aria-atomic="true"
-            v-if="champ.name === overedChampion"
-          >
+        <template v-for="(champ, index) in champions" :key="champ.name">
+          <li class="col-1" v-if="champ.line === 'jungle'">
             <div class="row">
-              <div class="col">
-                <span class="hard-champion">어려운적</span>
-
-                <div
-                  v-for="(champinfo, index) in worstArray"
-                  :key="index"
-                  class="row"
-                >
-                  <img
-                    :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champinfo}`"
-                    class="img-thumbnail chamption-info-img col-4"
-                  />
-
-                  <span class="col"
-                    >{{ worstNameArray[index] }}
-                    {{ worstRateArray[index] }}</span
-                  >
-                </div>
+              <img
+                :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champ.image.full}`"
+                v-on:click="handleMouseover(index)"
+                @click="clickChampion(index)"
+                class="img-thumbnail mx-auto chamption-info-img"
+              />
+              <div
+                class="fw-bold badge bg-primary text-center text-truncate mx-auto"
+              >
+                {{ champ.name }}
               </div>
-
-              <div class="col">
-                <span class="easy-champion">쉬운적</span>
-                <div
-                  v-for="(champinfo, index) in greatArray"
-                  :key="index"
-                  class="row"
-                >
-                  <img
-                    :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champinfo}`"
-                    class="img-thumbnail chamption-info-img col-4"
-                  />
-
-                  <span class="col"
-                    >{{ greatNameArray[index] }}
-                    {{ greatRateArray[index] }}</span
-                  >
-                </div>
+              <div
+                class="fw-bold badge bg-primary text-center text-truncate mx-auto"
+              >
+                {{ champ.line }}
               </div>
             </div>
-            <BanRecomend
-              class="col"
-              :championName="checkChamp"
-              :propChampionImage="propChampionImage"
-              :randomChampion1="randomChampion1"
-              :randomChampion2="randomChampion2"
-              :randomChampion3="randomChampion3"
-              :randomChampion4="randomChampion4"
-            ></BanRecomend>
-          </div>
-          <div v-else></div>
-        </li>
+
+            <div
+              class="position-fixed top-0 end-0 p-3 bg-success text-dark bg-opacity-10"
+              aria-live="assertive"
+              aria-atomic="true"
+              v-if="champ.name === overedChampion"
+            >
+              <div class="row">
+                <div class="col">
+                  <span class="hard-champion">어려운적</span>
+
+                  <div
+                    v-for="(champinfo, index) in worstArray"
+                    :key="index"
+                    class="row"
+                  >
+                    <img
+                      :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champinfo}`"
+                      class="img-thumbnail chamption-info-img col-4"
+                    />
+
+                    <span class="col"
+                      >{{ worstNameArray[index] }}
+                      {{ worstRateArray[index] }}</span
+                    >
+                  </div>
+                </div>
+
+                <div class="col">
+                  <span class="easy-champion">쉬운적</span>
+                  <div
+                    v-for="(champinfo, index) in greatArray"
+                    :key="index"
+                    class="row"
+                  >
+                    <img
+                      :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champinfo}`"
+                      class="img-thumbnail chamption-info-img col-4"
+                    />
+
+                    <span class="col"
+                      >{{ greatNameArray[index] }}
+                      {{ greatRateArray[index] }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <BanRecomend
+                class="col"
+                :championName="checkChamp"
+                :propChampionImage="propChampionImage"
+                :randomChampion1="randomChampion1"
+                :randomChampion2="randomChampion2"
+                :randomChampion3="randomChampion3"
+                :randomChampion4="randomChampion4"
+              ></BanRecomend>
+            </div>
+            <div v-else></div>
+          </li>
+        </template>
       </ul>
     </div>
   </div>
