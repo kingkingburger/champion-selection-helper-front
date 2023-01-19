@@ -27,40 +27,21 @@
     >
       <div class="row">
         <div class="col">
-          <span class="hard-champion">어려운적</span>
-
-          <div
-            v-for="(champinfo, index) in worstArray"
-            :key="index"
-            class="row"
-          >
-            <img
-              :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champinfo}`"
-              class="img-thumbnail chamption-info-img col-4"
-            />
-
-            <span class="col"
-              >{{ worstNameArray[index] }} {{ worstRateArray[index] }}</span
-            >
-          </div>
+          <HardChampion
+            :worstArray="worstArray"
+            :lolVersion="lolVersion"
+            :worstNameArray="worstNameArray"
+            :worstRateArray="worstRateArray"
+          ></HardChampion>
         </div>
 
         <div class="col">
-          <span class="easy-champion">쉬운적</span>
-          <div
-            v-for="(champinfo, index) in greatArray"
-            :key="index"
-            class="row"
-          >
-            <img
-              :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champinfo}`"
-              class="img-thumbnail chamption-info-img col-4"
-            />
-
-            <span class="col"
-              >{{ greatNameArray[index] }} {{ greatRateArray[index] }}</span
-            >
-          </div>
+          <EasyChampion
+            :greatArray="greatArray"
+            :lolVersion="lolVersion"
+            :greatNameArray="greatNameArray"
+            :greatRateArray="greatRateArray"
+          ></EasyChampion>
         </div>
       </div>
       <BanRecomend
@@ -80,6 +61,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import BanRecomend from "@/components/BanPick.vue";
+import EasyChampion from "@/components/EasyChampion.vue";
+import HardChampion from "@/components/HardChampion.vue";
 import axios from "axios";
 
 export default defineComponent({
@@ -87,6 +70,8 @@ export default defineComponent({
   //다른 컴포넌트를 쓰고 싶을 때
   components: {
     BanRecomend,
+    EasyChampion,
+    HardChampion,
   },
   data() {
     const champions: champ[] = [];
