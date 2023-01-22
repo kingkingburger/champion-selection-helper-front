@@ -1,6 +1,13 @@
 <template>
   <div class="row">
     <div class="col-8">
+      <div class="d-flex justify-content-center">
+        <div class="px-1">탑</div>
+        <div class="px-1">정글</div>
+        <div class="px-1">미드</div>
+        <div class="px-1">원딜</div>
+        <div class="px-1">서폿</div>
+      </div>
       <template v-for="(champ, index) in champions" :key="champ.name">
         <li class="col-1" v-if="champ.line === 'jungle'">
           <div>
