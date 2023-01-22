@@ -2,11 +2,13 @@
   <div class="row">
     <div class="col-8">
       <div class="d-flex justify-content-center">
-        <div class="px-1">탑</div>
-        <div class="px-1">정글</div>
-        <div class="px-1">미드</div>
-        <div class="px-1">원딜</div>
-        <div class="px-1">서폿</div>
+        <button
+          class="px-1 border"
+          v-for="(line, index) in lineList"
+          :key="index"
+        >
+          {{ line }}
+        </button>
       </div>
       <template v-for="(champ, index) in champions" :key="champ.name">
         <li class="col-1" v-if="champ.line === 'jungle'">
@@ -117,6 +119,7 @@ export default defineComponent({
     const greatArray: string[] = []; // 상대하기 쉬운것 3개 모아둔곳
     const greatNameArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
     const greatRateArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
+    const lineList: string[] = ["탑", "정글", "미드", "원딜", "서폿"]; // 라인 카테고리
     return {
       champions,
       lolVersion,
@@ -154,6 +157,7 @@ export default defineComponent({
       worstRateArray,
       greatNameArray,
       greatRateArray,
+      lineList,
     };
   },
   compatConfig: { MODE: 3 },
