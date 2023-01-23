@@ -6,6 +6,7 @@
           class="px-1 border"
           v-for="(line, index) in lineList"
           :key="index"
+          @click="clickLine(line)"
         >
           {{ line }}
         </button>
@@ -120,6 +121,7 @@ export default defineComponent({
     const greatNameArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
     const greatRateArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
     const lineList: string[] = ["탑", "정글", "미드", "원딜", "서폿"]; // 라인 카테고리
+    const clickedLine = "";
     return {
       champions,
       lolVersion,
@@ -158,6 +160,7 @@ export default defineComponent({
       greatNameArray,
       greatRateArray,
       lineList,
+      clickedLine,
     };
   },
   compatConfig: { MODE: 3 },
@@ -282,6 +285,9 @@ export default defineComponent({
       this.randomChampion4 = `${
         this.championEngName[Math.floor(Math.random() * 100)]
       }.png`;
+    },
+    clickLine(line: string) {
+      this.clickedLine = line;
     },
   },
 });
