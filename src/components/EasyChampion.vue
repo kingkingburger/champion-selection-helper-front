@@ -3,7 +3,7 @@
   <div v-for="(champinfo, index) in greatArray" :key="index" class="row">
     <img
       :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champinfo}`"
-      class="img-thumbnail chamption-info-img col-4"
+      class="img-thumbnail champion-info-img col-4"
     />
 
     <span class="col" v-if="greatNameArray && greatRateArray"
@@ -70,7 +70,7 @@ a {
   color: aquamarine;
 }
 
-.chamption-info-img {
+.champion-info-img {
   width: 5rem;
 }
 </style>

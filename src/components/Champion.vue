@@ -2,8 +2,9 @@
   <div class="row">
     <div class="col-8">
       <div class="d-flex justify-content-center">
+        <!-- 라인 카테고리 영역 -->
         <button
-          class="px-1 border"
+          class="px-2 mx-1 border"
           v-for="(line, index) in lineList"
           :key="index"
           @click="clickLine(line)"
@@ -11,13 +12,32 @@
           {{ line }}
         </button>
       </div>
+
+      <!-- 챔피언 초상화 영역 -->
       <template v-for="(champ, index) in champions" :key="champ.name">
-        <li class="col-1" v-if="champ.line === 'jungle'">
+        <!-- 기본 화면 -->
+        <li class="col-1" v-if="clickedLine === ''">
           <div>
             <img
-              :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${champ.image.full}`"
+              :src="`${champ.img}`"
               v-on:click="handleMouseover(index)"
-              @click="clickChampion(index)"
+              @click="clickChampion(champ, index)"
+              class="img-thumbnail mx-auto chamption-info-img"
+            />
+            <div
+              class="fw-bold badge bg-primary text-center text-truncate mx-auto"
+            >
+              {{ champ.name }}
+            </div>
+          </div>
+        </li>
+        <!-- 카테고리 선택했을 때 -->
+        <li class="col-1" v-else-if="champ.line === clickedLine">
+          <div>
+            <img
+              :src="`${champ.img}`"
+              v-on:click="handleMouseover(index)"
+              @click="clickChampion(champ, index)"
               class="img-thumbnail mx-auto chamption-info-img"
             />
             <div
@@ -29,6 +49,7 @@
         </li>
       </template>
     </div>
+    <!-- 오른쪽 추천 화면 -->
     <div
       class="col-4 bg-success text-dark bg-opacity-10 overflow-auto"
       aria-live="assertive"
@@ -84,7 +105,9 @@ export default defineComponent({
     HardChampion,
   },
   data() {
-    const champions: champ[] = [];
+    const apiURL: string =
+      process.env.VUE_APP_API_SERVER_URL || "http://localhost:3586";
+    const champions: champInfo[] = [];
     const lolVersion = ""; // lol 버전
     const choiseChampion = "";
     const apiResult = {};
@@ -121,8 +144,9 @@ export default defineComponent({
     const greatNameArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
     const greatRateArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
     const lineList: string[] = ["탑", "정글", "미드", "원딜", "서폿"]; // 라인 카테고리
-    const clickedLine = "";
+    const clickedLine = ""; // 클릭된 라인
     return {
+      apiURL: apiURL,
       champions,
       lolVersion,
       choiseChampion,
@@ -164,27 +188,19 @@ export default defineComponent({
     };
   },
   compatConfig: { MODE: 3 },
-
   async mounted() {
     this.lolVersion = await (
-      await axios.get(`http://localhost:3586/champion/version`)
+      await axios.get(`${this.apiURL}/champion/version`)
     ).data;
-
-    const response = (
-      await axios.get<championData>(
-        `https://ddragon.leagueoflegends.com/cdn/${this.lolVersion}/data/ko_KR/champion.json`
-      )
-    ).data;
-
     const responseByMadeApi = await (
-      await axios.get<Array<champInfo>>(`http://localhost:3586/champion`)
+      await axios.get<Array<champInfo>>(`${this.apiURL}/champion`)
     ).data;
 
-    this.champions = response.data;
+    this.champions = responseByMadeApi; // db안에 있는 전체 테이블
 
     // 챔피언의 영어이름을 저장하기
     for (const key in this.champions) {
-      this.championEngName.push(key);
+      this.championEngName.push(this.champions[key].engName ?? ""); // !은 무조건 있다는 표시, ?? 은 undefine, null이면 뒤에꺼 표시
       // 챔피언의 라인을 저장하기
       responseByMadeApi.forEach((info) => {
         if (info.engName === key) this.champions[key].line = info.line || "";
@@ -194,11 +210,11 @@ export default defineComponent({
   methods: {
     async handleMouseover(championIndex: number) {
       this.initChampionData();
-      this.choiseChampion = this.champions[championIndex].name; // 선택된 챔피언 인덱스로 이름 가져오기
+      this.choiseChampion = this.champions[championIndex].name || ""; // 선택된 챔피언 인덱스로 이름 가져오기
       this.overedChampion = this.choiseChampion; //선택된 챔피언들 넣기
       const response = await axios.get<championData>(
-        `http://localhost:3586/champion/name/${this.choiseChampion}`
-      ); // 어려운적, 쉬운적 받아오는 api
+        `${this.apiURL}/champion/name/${this.choiseChampion}`
+      ); // 어려운적, 쉬운적 받아오는 apiURL
       // 결과값 반환되는 곳
       const responseJson = response.data as Record<string, any>;
       this.worst1Name = responseJson[0].championRateName.worst1Name;
@@ -221,37 +237,37 @@ export default defineComponent({
       // 이름을 가지고 image 찾는 로직
       for (const key in this.champions) {
         if (this.champions[key].name === this.worst1Name) {
-          this.worst1NameImage = `${key}.png`;
+          this.worst1NameImage = `${this.champions[key].engName}.png`;
           this.worstArray.push(this.worst1NameImage);
           this.worstNameArray.push(this.worst1Name);
           this.worstRateArray.push(this.worst1Rate);
         }
         if (this.champions[key].name === this.worst2Name) {
-          this.worst2NameImage = `${key}.png`;
+          this.worst2NameImage = `${this.champions[key].engName}.png`;
           this.worstArray.push(this.worst2NameImage);
           this.worstRateArray.push(this.worst2Rate);
           this.worstNameArray.push(this.worst2Name);
         }
         if (this.champions[key].name === this.worst3Name) {
-          this.worst3NameImage = `${key}.png`;
+          this.worst3NameImage = `${this.champions[key].engName}.png`;
           this.worstArray.push(this.worst3NameImage);
           this.worstRateArray.push(this.worst3Rate);
           this.worstNameArray.push(this.worst3Name);
         }
         if (this.champions[key].name === this.great1Name) {
-          this.great1NameImage = `${key}.png`;
+          this.great1NameImage = `${this.champions[key].engName}.png`;
           this.greatNameArray.push(this.great1Name);
           this.greatRateArray.push(this.great1Rate);
           this.greatArray.push(this.great1NameImage);
         }
         if (this.champions[key].name === this.great2Name) {
-          this.great2NameImage = `${key}.png`;
+          this.great2NameImage = `${this.champions[key].engName}.png`;
           this.greatNameArray.push(this.great2Name);
           this.greatRateArray.push(this.great2Rate);
           this.greatArray.push(this.great2NameImage);
         }
         if (this.champions[key].name === this.great3Name) {
-          this.great3NameImage = `${key}.png`;
+          this.great3NameImage = `${this.champions[key].engName}.png`;
           this.greatNameArray.push(this.great3Name);
           this.greatRateArray.push(this.great3Rate);
           this.greatArray.push(this.great3NameImage);
@@ -268,26 +284,30 @@ export default defineComponent({
       this.greatNameArray = [];
       this.greatRateArray = [];
     },
-    clickChampion(championIndex: number) {
-      this.propChampionImage = this.champions[championIndex].image.full; // 선택된 챔피언의 영어 닉네임
-      this.checkChamp = this.champions[championIndex].name; // 선택된 챔피언 인덱스로 이름 가져오기
+    clickChampion(clickedChampionInfo: champInfo, index: number) {
+      this.propChampionImage = clickedChampionInfo.img || ""; // 선택된 챔피언의 이미지 경로
+      this.checkChamp = clickedChampionInfo.name || ""; // 선택된 챔피언 인덱스로 이름 가져오기
+      const keys = Object.keys(this.champions);
 
-      // 랜덤한 챔피언 영어이름으로 자식 컴포넌트에 보내주기
-      this.randomChampion1 = `${
-        this.championEngName[Math.floor(Math.random() * 100)]
-      }.png`;
-      this.randomChampion2 = `${
-        this.championEngName[Math.floor(Math.random() * 100)]
-      }.png`;
-      this.randomChampion3 = `${
-        this.championEngName[Math.floor(Math.random() * 100)]
-      }.png`;
-      this.randomChampion4 = `${
-        this.championEngName[Math.floor(Math.random() * 100)]
-      }.png`;
+      // 랜덤한 챔피언 이미지 경로를 자식 컴포넌트에 보내주기
+      this.randomChampion1 =
+        this.champions[Math.floor(Math.random() * keys.length)].img ?? "";
+      this.randomChampion2 =
+        this.champions[Math.floor(Math.random() * keys.length)].img ?? "";
+      this.randomChampion3 =
+        this.champions[Math.floor(Math.random() * keys.length)].img ?? "";
+      this.randomChampion4 =
+        this.champions[Math.floor(Math.random() * keys.length)].img ?? "";
     },
-    clickLine(line: string) {
-      this.clickedLine = line;
+    clickLine(lineParam: string) {
+      this.clickedLine = lineParam;
+      // 라인 선택하기
+      const lineIndex = this.lineList.findIndex((line) => line === lineParam);
+      if (lineIndex === 0) this.clickedLine = "top";
+      else if (lineIndex === 1) this.clickedLine = "jug";
+      else if (lineIndex === 2) this.clickedLine = "mid";
+      else if (lineIndex === 3) this.clickedLine = "ad";
+      else if (lineIndex === 4) this.clickedLine = "sup";
     },
   },
 });
@@ -309,6 +329,7 @@ interface champInfo {
   name?: string;
   engName?: string;
   line?: string;
+  img?: string;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
@@ -354,22 +375,6 @@ a {
 /* .champion {
   width: 1500px;
 } */
-
-.champion-info {
-  position: absolute;
-  background-color: aliceblue;
-  border: 1px solid;
-  border-radius: 20px;
-  padding: 10px 10px 10px 10px;
-}
-
-.hard-champion {
-  color: brown;
-}
-
-.easy-champion {
-  color: aquamarine;
-}
 
 .chamption-info-img {
   width: 5rem;

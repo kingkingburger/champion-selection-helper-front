@@ -6,36 +6,36 @@
     <div>
       <div>
         <img
-          :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${propChampionImage}`"
-          class="img-thumbnail chamption-info-img"
+          :src="`${propChampionImage}`"
+          class="img-thumbnail champion-info-img"
         />
       </div>
 
       <div>
         <img
-          :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${randomChampion1}`"
-          class="img-thumbnail chamption-info-img"
+          :src="`${randomChampion1}`"
+          class="img-thumbnail champion-info-img"
         />
       </div>
 
       <div>
         <img
-          :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${randomChampion2}`"
-          class="img-thumbnail chamption-info-img"
+          :src="`${randomChampion2}`"
+          class="img-thumbnail champion-info-img"
         />
       </div>
 
       <div>
         <img
-          :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${randomChampion3}`"
-          class="img-thumbnail chamption-info-img"
+          :src="`${randomChampion3}`"
+          class="img-thumbnail champion-info-img"
         />
       </div>
 
       <div>
         <img
-          :src="`http://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${randomChampion4}`"
-          class="img-thumbnail chamption-info-img"
+          :src="`${randomChampion4}`"
+          class="img-thumbnail champion-info-img"
         />
       </div>
     </div>
@@ -49,7 +49,7 @@ export default defineComponent({
   // compatConfig: { MODE: 3 },
   name: "BanRecomend",
   data() {
-    const lolVersion = "12.23.1";
+    const lolVersion = "13.1.1";
     return { lolVersion };
   },
   props: {
@@ -102,5 +102,9 @@ a {
 .randomBanPickTtile {
   color: brown;
   size: 100px;
+}
+
+.champion-info-img {
+  width: 5rem;
 }
 </style>
