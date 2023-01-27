@@ -3,12 +3,7 @@
     <div class="col-8">
       <div class="d-flex justify-content-center">
         <!-- 라인 카테고리 영역 -->
-        <button
-          class="px-2 mx-1 border"
-          v-for="(line, index) in lineList"
-          :key="index"
-          @click="clickLine(line)"
-        >
+        <button class="px-2 mx-1 border" v-for="(line, index) in lineList" :key="index" @click="clickLine(line)">
           {{ line }}
         </button>
       </div>
@@ -24,9 +19,7 @@
               @click="clickChampion(champ, index)"
               class="img-thumbnail mx-auto chamption-info-img"
             />
-            <div
-              class="fw-bold badge bg-primary text-center text-truncate mx-auto"
-            >
+            <div class="fw-bold badge bg-primary text-center text-truncate mx-auto">
               {{ champ.name }}
             </div>
           </div>
@@ -40,9 +33,7 @@
               @click="clickChampion(champ, index)"
               class="img-thumbnail mx-auto chamption-info-img"
             />
-            <div
-              class="fw-bold badge bg-primary text-center text-truncate mx-auto"
-            >
+            <div class="fw-bold badge bg-primary text-center text-truncate mx-auto">
               {{ champ.name }}
             </div>
           </div>
@@ -105,8 +96,7 @@ export default defineComponent({
     HardChampion,
   },
   data() {
-    const apiURL: string =
-      process.env.VUE_APP_API_SERVER_URL || "http://localhost:3586";
+    const apiURL: string = process.env.VUE_APP_API_SERVER_URL || "http://localhost:3586";
     const champions: champInfo[] = [];
     const lolVersion = ""; // lol 버전
     const choiseChampion = "";
@@ -189,12 +179,8 @@ export default defineComponent({
   },
   compatConfig: { MODE: 3 },
   async mounted() {
-    this.lolVersion = await (
-      await axios.get(`${this.apiURL}/champion/version`)
-    ).data;
-    const responseByMadeApi = await (
-      await axios.get<Array<champInfo>>(`${this.apiURL}/champion`)
-    ).data;
+    this.lolVersion = await (await axios.get(`${this.apiURL}/champion/version`)).data;
+    const responseByMadeApi = await (await axios.get<Array<champInfo>>(`${this.apiURL}/champion`)).data;
 
     this.champions = responseByMadeApi; // db안에 있는 전체 테이블
 
@@ -212,9 +198,7 @@ export default defineComponent({
       this.initChampionData();
       this.choiseChampion = this.champions[championIndex].name || ""; // 선택된 챔피언 인덱스로 이름 가져오기
       this.overedChampion = this.choiseChampion; //선택된 챔피언들 넣기
-      const response = await axios.get<championData>(
-        `${this.apiURL}/champion/name/${this.choiseChampion}`
-      ); // 어려운적, 쉬운적 받아오는 apiURL
+      const response = await axios.get<championData>(`${this.apiURL}/champion/name/${this.choiseChampion}`); // 어려운적, 쉬운적 받아오는 apiURL
       // 결과값 반환되는 곳
       const responseJson = response.data as Record<string, any>;
       this.worst1Name = responseJson[0].championRateName.worst1Name;
@@ -284,21 +268,33 @@ export default defineComponent({
       this.greatNameArray = [];
       this.greatRateArray = [];
     },
+
+    // 배열의 랜덤한 element를 반환
+    getRandomElement<T>(arr: Array<T>): T {
+      return arr[Math.floor(Math.random() * arr.length)];
+    },
+
     clickChampion(clickedChampionInfo: champInfo, index: number) {
+      let lineArray = ["top", "jug", "mid", "ad", "sup"];
+
       this.propChampionImage = clickedChampionInfo.img || ""; // 선택된 챔피언의 이미지 경로
       this.checkChamp = clickedChampionInfo.name || ""; // 선택된 챔피언 인덱스로 이름 가져오기
-      const keys = Object.keys(this.champions);
+      const checkedChampLine = clickedChampionInfo.line || ""; // 선택된 챔피언 라인
 
-      // 랜덤한 챔피언 이미지 경로를 자식 컴포넌트에 보내주기
+      // 선택한 라인 제외하기 (4개의 라인만 남음)
+      lineArray = lineArray.filter((line) => line !== checkedChampLine);
+
+      // 4개 라인중의 랜덤한 챔피언 보여주기
       this.randomChampion1 =
-        this.champions[Math.floor(Math.random() * keys.length)].img ?? "";
+        this.getRandomElement(this.champions.filter((champ) => champ.line === lineArray[0])).img ?? "";
       this.randomChampion2 =
-        this.champions[Math.floor(Math.random() * keys.length)].img ?? "";
+        this.getRandomElement(this.champions.filter((champ) => champ.line === lineArray[1])).img ?? "";
       this.randomChampion3 =
-        this.champions[Math.floor(Math.random() * keys.length)].img ?? "";
+        this.getRandomElement(this.champions.filter((champ) => champ.line === lineArray[2])).img ?? "";
       this.randomChampion4 =
-        this.champions[Math.floor(Math.random() * keys.length)].img ?? "";
+        this.getRandomElement(this.champions.filter((champ) => champ.line === lineArray[3])).img ?? "";
     },
+
     clickLine(lineParam: string) {
       this.clickedLine = lineParam;
       // 라인 선택하기
