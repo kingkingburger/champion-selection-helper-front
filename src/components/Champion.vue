@@ -3,7 +3,12 @@
     <div class="col-8">
       <div class="d-flex justify-content-center">
         <!-- 라인 카테고리 영역 -->
-        <button class="px-2 mx-1 border" v-for="(line, index) in lineList" :key="index" @click="clickLine(line)">
+        <button
+          class="px-2 mx-1 border"
+          v-for="(line, index) in lineList"
+          :key="index"
+          @click="clickLine(line)"
+        >
           {{ line }}
         </button>
       </div>
@@ -19,7 +24,9 @@
               @click="clickChampion(champ, index)"
               class="img-thumbnail mx-auto chamption-info-img"
             />
-            <div class="fw-bold badge bg-primary text-center text-truncate mx-auto">
+            <div
+              class="fw-bold badge bg-primary text-center text-truncate mx-auto"
+            >
               {{ champ.name }}
             </div>
           </div>
@@ -33,7 +40,9 @@
               @click="clickChampion(champ, index)"
               class="img-thumbnail mx-auto chamption-info-img"
             />
-            <div class="fw-bold badge bg-primary text-center text-truncate mx-auto">
+            <div
+              class="fw-bold badge bg-primary text-center text-truncate mx-auto"
+            >
               {{ champ.name }}
             </div>
           </div>
@@ -96,7 +105,8 @@ export default defineComponent({
     HardChampion,
   },
   data() {
-    const apiURL: string = process.env.VUE_APP_API_SERVER_URL || "http://localhost:3586";
+    const apiURL: string =
+      process.env.VUE_APP_API_SERVER_URL || "http://localhost:3586";
     const champions: champInfo[] = [];
     const lolVersion = ""; // lol 버전
     const choiseChampion = "";
@@ -122,10 +132,10 @@ export default defineComponent({
     const great3NameImage = ""; // 쉬운적3 이미지 경로(이미지.png)
     const checkChamp = ""; // 클릭한 챔피언
     const propChampionImage = ""; // 클릭한 챔피언의 이미지
-    const randomChampion1 = ""; // 랜덤 챔피언1
-    const randomChampion2 = ""; // 랜덤 챔피언2
-    const randomChampion3 = ""; // 랜덤 챔피언3
-    const randomChampion4 = ""; // 랜덤 챔피언4
+    const randomChampion1: champInfo = {}; // 랜덤 챔피언1
+    const randomChampion2: champInfo = {}; // 랜덤 챔피언2
+    const randomChampion3: champInfo = {}; // 랜덤 챔피언3
+    const randomChampion4: champInfo = {}; // 랜덤 챔피언4
     const championEngName: string[] = []; // 챔피언의 영어이름을 저장하기위한 배열
     const worstArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
     const worstNameArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
@@ -179,18 +189,26 @@ export default defineComponent({
   },
   compatConfig: { MODE: 3 },
   async mounted() {
-    this.lolVersion = await (await axios.get(`${this.apiURL}/champion/version`)).data;
-    const responseByMadeApi = await (await axios.get<Array<champInfo>>(`${this.apiURL}/champion`)).data;
+    try {
+      this.lolVersion = await (
+        await axios.get(`${this.apiURL}/champion/version`)
+      ).data;
+      const responseByMadeApi = await (
+        await axios.get<Array<champInfo>>(`${this.apiURL}/champion`)
+      ).data;
 
-    this.champions = responseByMadeApi; // db안에 있는 전체 테이블
+      this.champions = responseByMadeApi; // db안에 있는 전체 테이블
 
-    // 챔피언의 영어이름을 저장하기
-    for (const key in this.champions) {
-      this.championEngName.push(this.champions[key].engName ?? ""); // !은 무조건 있다는 표시, ?? 은 undefine, null이면 뒤에꺼 표시
-      // 챔피언의 라인을 저장하기
-      responseByMadeApi.forEach((info) => {
-        if (info.engName === key) this.champions[key].line = info.line || "";
-      });
+      // 챔피언의 영어이름을 저장하기
+      for (const key in this.champions) {
+        this.championEngName.push(this.champions[key].engName ?? ""); // !은 무조건 있다는 표시, ?? 은 undefine, null이면 뒤에꺼 표시
+        // 챔피언의 라인을 저장하기
+        responseByMadeApi.forEach((info) => {
+          if (info.engName === key) this.champions[key].line = info.line || "";
+        });
+      }
+    } catch (err) {
+      console.error(err);
     }
   },
   methods: {
@@ -198,7 +216,9 @@ export default defineComponent({
       this.initChampionData();
       this.choiseChampion = this.champions[championIndex].name || ""; // 선택된 챔피언 인덱스로 이름 가져오기
       this.overedChampion = this.choiseChampion; //선택된 챔피언들 넣기
-      const response = await axios.get<championData>(`${this.apiURL}/champion/name/${this.choiseChampion}`); // 어려운적, 쉬운적 받아오는 apiURL
+      const response = await axios.get<championData>(
+        `${this.apiURL}/champion/name/${this.choiseChampion}`
+      ); // 어려운적, 쉬운적 받아오는 apiURL
       // 결과값 반환되는 곳
       const responseJson = response.data as Record<string, any>;
       this.worst1Name = responseJson[0].championRateName.worst1Name;
@@ -284,15 +304,27 @@ export default defineComponent({
       // 선택한 라인 제외하기 (4개의 라인만 남음)
       lineArray = lineArray.filter((line) => line !== checkedChampLine);
 
+      const randomPickChampion1 =
+        this.getRandomElement(
+          this.champions.filter((champ) => champ.line === lineArray[0])
+        ) ?? "";
+      const randomPickChampion2 =
+        this.getRandomElement(
+          this.champions.filter((champ) => champ.line === lineArray[1])
+        ) ?? "";
+      const randomPickChampion3 =
+        this.getRandomElement(
+          this.champions.filter((champ) => champ.line === lineArray[2])
+        ) ?? "";
+      const randomPickChampion4 =
+        this.getRandomElement(
+          this.champions.filter((champ) => champ.line === lineArray[3])
+        ) ?? "";
       // 4개 라인중의 랜덤한 챔피언 보여주기
-      this.randomChampion1 =
-        this.getRandomElement(this.champions.filter((champ) => champ.line === lineArray[0])).img ?? "";
-      this.randomChampion2 =
-        this.getRandomElement(this.champions.filter((champ) => champ.line === lineArray[1])).img ?? "";
-      this.randomChampion3 =
-        this.getRandomElement(this.champions.filter((champ) => champ.line === lineArray[2])).img ?? "";
-      this.randomChampion4 =
-        this.getRandomElement(this.champions.filter((champ) => champ.line === lineArray[3])).img ?? "";
+      this.randomChampion1 = randomPickChampion1 ?? "";
+      this.randomChampion2 = randomPickChampion2 ?? "";
+      this.randomChampion3 = randomPickChampion3 ?? "";
+      this.randomChampion4 = randomPickChampion4 ?? "";
     },
 
     clickLine(lineParam: string) {
@@ -319,7 +351,7 @@ interface champ {
   line: string;
 }
 
-interface champInfo {
+export interface champInfo {
   id?: number;
   key?: number;
   name?: string;

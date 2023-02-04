@@ -13,28 +13,28 @@
 
       <div>
         <img
-          :src="`${randomChampion1}`"
+          :src="`${randomChampion1?.img}`"
           class="img-thumbnail champion-info-img"
         />
       </div>
 
       <div>
         <img
-          :src="`${randomChampion2}`"
+          :src="`${randomChampion2?.img}`"
           class="img-thumbnail champion-info-img"
         />
       </div>
 
       <div>
         <img
-          :src="`${randomChampion3}`"
+          :src="`${randomChampion3?.img}`"
           class="img-thumbnail champion-info-img"
         />
       </div>
 
       <div>
         <img
-          :src="`${randomChampion4}`"
+          :src="`${randomChampion4?.img}`"
           class="img-thumbnail champion-info-img"
         />
       </div>
@@ -43,7 +43,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { PropType, defineComponent } from "vue";
+import { champInfo } from "./Champion.vue";
 
 export default defineComponent({
   // compatConfig: { MODE: 3 },
@@ -55,10 +56,10 @@ export default defineComponent({
   props: {
     championName: String,
     propChampionImage: String, // 부모에서 받아온 이미지 경로(이미지.png)
-    randomChampion1: String, // 부모에서 받아온 랜덤 이미지 경로(이미지.png)
-    randomChampion2: String, // 부모에서 받아온 랜덤 이미지 경로(이미지.png)
-    randomChampion3: String, // 부모에서 받아온 랜덤 이미지 경로(이미지.png)
-    randomChampion4: String, // 부모에서 받아온 랜덤 이미지 경로(이미지.png)
+    randomChampion1: Object as PropType<champInfo>, // 부모에서 받아온 랜덤 이미지 경로(이미지.png)
+    randomChampion2: Object as PropType<champInfo>, // 부모에서 받아온 랜덤 이미지 경로(이미지.png)
+    randomChampion3: Object as PropType<champInfo>, // 부모에서 받아온 랜덤 이미지 경로(이미지.png)
+    randomChampion4: Object as PropType<champInfo>, // 부모에서 받아온 랜덤 이미지 경로(이미지.png)
   },
 });
 </script>
