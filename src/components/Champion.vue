@@ -4,7 +4,7 @@
       <div class="d-flex justify-content-center">
         <!-- 라인 카테고리 영역 -->
         <button
-          class="px-2 mx-1 border"
+          class="px-2 mx-1 border fw-bold bg-primary"
           v-for="(line, index) in lineList"
           :key="index"
           @click="clickLine(line)"
@@ -22,7 +22,7 @@
               :src="`${champ.img}`"
               v-on:click="handleMouseover(index)"
               @click="clickChampion(champ, index)"
-              class="img-thumbnail mx-auto chamption-info-img"
+              class="img-thumbnail mx-auto champion-info-img"
             />
             <div
               class="fw-bold badge bg-primary text-center text-truncate mx-auto"
@@ -38,7 +38,7 @@
               :src="`${champ.img}`"
               v-on:click="handleMouseover(index)"
               @click="clickChampion(champ, index)"
-              class="img-thumbnail mx-auto chamption-info-img"
+              class="img-thumbnail mx-auto champion-info-img"
             />
             <div
               class="fw-bold badge bg-primary text-center text-truncate mx-auto"
@@ -91,7 +91,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import BanRecomend from "@/components/BanPick.vue";
+import BanRecomend from "@/components/RecomandChampion.vue";
 import EasyChampion from "@/components/EasyChampion.vue";
 import HardChampion from "@/components/HardChampion.vue";
 import axios from "axios";
@@ -143,7 +143,7 @@ export default defineComponent({
     const greatArray: string[] = []; // 상대하기 쉬운것 3개 모아둔곳
     const greatNameArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
     const greatRateArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
-    const lineList: string[] = ["탑", "정글", "미드", "원딜", "서폿"]; // 라인 카테고리
+    const lineList: string[] = ["탑", "정글", "미드", "원딜", "서폿", "전체"]; // 라인 카테고리
     const clickedLine = ""; // 클릭된 라인
     return {
       apiURL: apiURL,
@@ -336,6 +336,7 @@ export default defineComponent({
       else if (lineIndex === 2) this.clickedLine = "mid";
       else if (lineIndex === 3) this.clickedLine = "ad";
       else if (lineIndex === 4) this.clickedLine = "sup";
+      else if (lineIndex === 5) this.clickedLine = "";
     },
   },
 });
@@ -404,7 +405,7 @@ a {
   width: 1500px;
 } */
 
-.chamption-info-img {
+.champion-info-img {
   width: 5rem;
 }
 </style>

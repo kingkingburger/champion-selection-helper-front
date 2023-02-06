@@ -1,6 +1,6 @@
 import CampionHomes from "@/views/Champion.vue";
 // import CampionHome from "@/components/Champion.vue";
-import BanRecomend from "@/components/BanPick.vue";
+import BanRecomend from "@/components/RecomandChampion.vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
@@ -17,13 +17,13 @@ const routes: Array<RouteRecordRaw> = [
     // ],
   },
   {
-    path: "/about",
-    name: "about",
+    path: "/banPick",
+    name: "banPick",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+      import(/* webpackChunkName: "about" */ "../views/BanPick.vue"),
   },
 ];
 
