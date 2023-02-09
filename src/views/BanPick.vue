@@ -1,29 +1,26 @@
 <template>
+  <!-- 밴 현상황 표 -->
   <div class="row">
     <div class="col">
-      <div class="d-flex justify-content-end">
-        <!-- 라인 카테고리 영역 -->
-        <button
-          class="px-2 mx-1 border fw-bold bg-primary"
-          v-for="(line, index) in lineList"
+      <div class="d-flex justify-content-center">
+        <img
+          class="px-2 mx-1 img-thumbnail mx-auto champion-info-img"
+          v-for="(imgSrc, index) in redBan"
           :key="index"
-          @click="clickLine(line)"
-        >
-          {{ line }}
-        </button>
+          :src="imgSrc"
+          @error="replaceImg"
+        />
       </div>
     </div>
     <div class="col">
-      <div class="d-flex justify-content-end">
-        <!-- 라인 카테고리 영역 -->
-        <button
-          class="px-2 mx-1 border fw-bold bg-primary"
-          v-for="(line, index) in lineList"
+      <div class="d-flex justify-content-center">
+        <img
+          class="px-2 mx-1 img-thumbnail mx-auto champion-info-img"
+          v-for="(imgSrc, index) in blueBan"
           :key="index"
-          @click="clickLine(line)"
-        >
-          {{ line }}
-        </button>
+          :src="imgSrc"
+          @error="replaceImg"
+        />
       </div>
     </div>
   </div>
@@ -46,8 +43,7 @@
         <div>
           <img
             :src="`${champ.img}`"
-            v-on:click="handleMouseover(index)"
-            @click="clickChampion(champ, index)"
+            @click="championPick(champ, index)"
             class="img-thumbnail mx-auto champion-info-img"
           />
           <div
@@ -62,8 +58,7 @@
         <div>
           <img
             :src="`${champ.img}`"
-            v-on:click="handleMouseover(index)"
-            @click="clickChampion(champ, index)"
+            @click="championPick(champ, index)"
             class="img-thumbnail mx-auto champion-info-img"
           />
           <div
@@ -79,9 +74,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import BanRecomend from "@/components/RecomandChampion.vue";
-import EasyChampion from "@/components/EasyChampion.vue";
-import HardChampion from "@/components/HardChampion.vue";
+
 import axios from "axios";
 
 export default defineComponent({
@@ -96,38 +89,12 @@ export default defineComponent({
     const choiseChampion = "";
     const apiResult = {};
     const overedChampion = ""; // 선택된 챔피언
-    const worst1Name = "";
-    const worst2Name = "";
-    const worst3Name = "";
-    const worst1Rate = "";
-    const worst2Rate = "";
-    const worst3Rate = "";
-    const great1Name = "";
-    const great2Name = "";
-    const great3Name = "";
-    const great1Rate = "";
-    const great2Rate = "";
-    const great3Rate = "";
-    const worst1NameImage = ""; // 어려운적1 이미지 경로(이미지.png)
-    const worst2NameImage = ""; // 어려운적2 이미지 경로(이미지.png)
-    const worst3NameImage = ""; // 어려운적3 이미지 경로(이미지.png)
-    const great1NameImage = ""; // 쉬운적1 이미지 경로(이미지.png)
-    const great2NameImage = ""; // 쉬운적2 이미지 경로(이미지.png)
-    const great3NameImage = ""; // 쉬운적3 이미지 경로(이미지.png)
     const checkChamp = ""; // 클릭한 챔피언
     const propChampionImage = ""; // 클릭한 챔피언의 이미지
-    const randomChampion1: champInfo = {}; // 랜덤 챔피언1
-    const randomChampion2: champInfo = {}; // 랜덤 챔피언2
-    const randomChampion3: champInfo = {}; // 랜덤 챔피언3
-    const randomChampion4: champInfo = {}; // 랜덤 챔피언4
-    const championEngName: string[] = []; // 챔피언의 영어이름을 저장하기위한 배열
-    const worstArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
-    const worstNameArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
-    const worstRateArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
-    const greatArray: string[] = []; // 상대하기 쉬운것 3개 모아둔곳
-    const greatNameArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
-    const greatRateArray: string[] = []; // 상대하기 어려운거 3개 모아둔것
     const lineList: string[] = ["탑", "정글", "미드", "원딜", "서폿", "전체"]; // 라인 카테고리
+    const redBan: string[] = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황
+    const blueBan: string[] = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황
+    const clickCount = 0;
     const clickedLine = ""; // 클릭된 라인
     return {
       apiURL: apiURL,
@@ -136,39 +103,13 @@ export default defineComponent({
       choiseChampion,
       apiResult,
       overedChampion,
-      worst1Name,
-      worst2Name,
-      worst3Name,
-      worst1Rate,
-      worst2Rate,
-      worst3Rate,
-      great1Name,
-      great2Name,
-      great3Name,
-      great1Rate,
-      great2Rate,
-      great3Rate,
-      worst1NameImage,
-      worst2NameImage,
-      worst3NameImage,
-      great1NameImage,
-      great2NameImage,
-      great3NameImage,
       checkChamp,
       propChampionImage,
-      randomChampion1,
-      randomChampion2,
-      randomChampion3,
-      randomChampion4,
-      championEngName,
-      worstArray,
-      greatArray,
-      worstNameArray,
-      worstRateArray,
-      greatNameArray,
-      greatRateArray,
       lineList,
       clickedLine,
+      redBan,
+      blueBan,
+      clickCount,
     };
   },
   compatConfig: { MODE: 3 },
@@ -182,135 +123,14 @@ export default defineComponent({
       ).data;
 
       this.champions = responseByMadeApi; // db안에 있는 전체 테이블
-
-      // 챔피언의 영어이름을 저장하기
-      for (const key in this.champions) {
-        this.championEngName.push(this.champions[key].engName ?? ""); // !은 무조건 있다는 표시, ?? 은 undefine, null이면 뒤에꺼 표시
-        // 챔피언의 라인을 저장하기
-        responseByMadeApi.forEach((info) => {
-          if (info.engName === key) this.champions[key].line = info.line || "";
-        });
-      }
     } catch (err) {
       console.error(err);
     }
   },
   methods: {
-    async handleMouseover(championIndex: number) {
-      this.initChampionData();
-      this.choiseChampion = this.champions[championIndex].name || ""; // 선택된 챔피언 인덱스로 이름 가져오기
-      this.overedChampion = this.choiseChampion; //선택된 챔피언들 넣기
-      const response = await axios.get<championData>(
-        `${this.apiURL}/champion/name/${this.choiseChampion}`
-      ); // 어려운적, 쉬운적 받아오는 apiURL
-      // 결과값 반환되는 곳
-      const responseJson = response.data as Record<string, any>;
-      this.worst1Name = responseJson[0].championRateName.worst1Name;
-      this.worst2Name = responseJson[0].championRateName.worst2Name;
-      this.worst3Name = responseJson[0].championRateName.worst3Name;
-      this.worst1Rate = responseJson[0].championRateName.worst1Rate;
-      this.worst2Rate = responseJson[0].championRateName.worst2Rate;
-      this.worst3Rate = responseJson[0].championRateName.worst3Rate;
-      this.great1Name = responseJson[0].championRateName.great1Name;
-      this.great2Name = responseJson[0].championRateName.great2Name;
-      this.great3Name = responseJson[0].championRateName.great3Name;
-      this.great1Rate = responseJson[0].championRateName.great1Rate;
-      this.great2Rate = responseJson[0].championRateName.great2Rate;
-      this.great3Rate = responseJson[0].championRateName.great3Rate;
-
-      //어려운거 3개 모아두기
-
-      //쉬운거 3개 모아두기
-
-      // 이름을 가지고 image 찾는 로직
-      for (const key in this.champions) {
-        if (this.champions[key].name === this.worst1Name) {
-          this.worst1NameImage = `${this.champions[key].engName}.png`;
-          this.worstArray.push(this.worst1NameImage);
-          this.worstNameArray.push(this.worst1Name);
-          this.worstRateArray.push(this.worst1Rate);
-        }
-        if (this.champions[key].name === this.worst2Name) {
-          this.worst2NameImage = `${this.champions[key].engName}.png`;
-          this.worstArray.push(this.worst2NameImage);
-          this.worstRateArray.push(this.worst2Rate);
-          this.worstNameArray.push(this.worst2Name);
-        }
-        if (this.champions[key].name === this.worst3Name) {
-          this.worst3NameImage = `${this.champions[key].engName}.png`;
-          this.worstArray.push(this.worst3NameImage);
-          this.worstRateArray.push(this.worst3Rate);
-          this.worstNameArray.push(this.worst3Name);
-        }
-        if (this.champions[key].name === this.great1Name) {
-          this.great1NameImage = `${this.champions[key].engName}.png`;
-          this.greatNameArray.push(this.great1Name);
-          this.greatRateArray.push(this.great1Rate);
-          this.greatArray.push(this.great1NameImage);
-        }
-        if (this.champions[key].name === this.great2Name) {
-          this.great2NameImage = `${this.champions[key].engName}.png`;
-          this.greatNameArray.push(this.great2Name);
-          this.greatRateArray.push(this.great2Rate);
-          this.greatArray.push(this.great2NameImage);
-        }
-        if (this.champions[key].name === this.great3Name) {
-          this.great3NameImage = `${this.champions[key].engName}.png`;
-          this.greatNameArray.push(this.great3Name);
-          this.greatRateArray.push(this.great3Rate);
-          this.greatArray.push(this.great3NameImage);
-        }
-      }
+    replaceImg(e: { target: { src: string } }) {
+      e.target.src = require(`../assets/logo.png`);
     },
-    initChampionData() {
-      this.overedChampion = "";
-      // 마우스 때면 챔피언 정보들 초기화
-      this.worstArray = [];
-      this.worstNameArray = [];
-      this.worstRateArray = [];
-      this.greatArray = [];
-      this.greatNameArray = [];
-      this.greatRateArray = [];
-    },
-
-    // 배열의 랜덤한 element를 반환
-    getRandomElement<T>(arr: Array<T>): T {
-      return arr[Math.floor(Math.random() * arr.length)];
-    },
-
-    clickChampion(clickedChampionInfo: champInfo, index: number) {
-      let lineArray = ["top", "jug", "mid", "ad", "sup"];
-
-      this.propChampionImage = clickedChampionInfo.img || ""; // 선택된 챔피언의 이미지 경로
-      this.checkChamp = clickedChampionInfo.name || ""; // 선택된 챔피언 인덱스로 이름 가져오기
-      const checkedChampLine = clickedChampionInfo.line || ""; // 선택된 챔피언 라인
-
-      // 선택한 라인 제외하기 (4개의 라인만 남음)
-      lineArray = lineArray.filter((line) => line !== checkedChampLine);
-
-      const randomPickChampion1 =
-        this.getRandomElement(
-          this.champions.filter((champ) => champ.line === lineArray[0])
-        ) ?? "";
-      const randomPickChampion2 =
-        this.getRandomElement(
-          this.champions.filter((champ) => champ.line === lineArray[1])
-        ) ?? "";
-      const randomPickChampion3 =
-        this.getRandomElement(
-          this.champions.filter((champ) => champ.line === lineArray[2])
-        ) ?? "";
-      const randomPickChampion4 =
-        this.getRandomElement(
-          this.champions.filter((champ) => champ.line === lineArray[3])
-        ) ?? "";
-      // 4개 라인중의 랜덤한 챔피언 보여주기
-      this.randomChampion1 = randomPickChampion1 ?? "";
-      this.randomChampion2 = randomPickChampion2 ?? "";
-      this.randomChampion3 = randomPickChampion3 ?? "";
-      this.randomChampion4 = randomPickChampion4 ?? "";
-    },
-
     clickLine(lineParam: string) {
       this.clickedLine = lineParam;
       // 라인 선택하기
@@ -321,6 +141,55 @@ export default defineComponent({
       else if (lineIndex === 3) this.clickedLine = "ad";
       else if (lineIndex === 4) this.clickedLine = "sup";
       else if (lineIndex === 5) this.clickedLine = "";
+    },
+    championPick(clickedChampionInfo: champInfo, index: number) {
+      const banSequence = [
+        this.redBan[4], // 0
+        this.blueBan[0], //1
+        this.blueBan[1], // 2
+        this.redBan[3], //3
+        this.redBan[2], //4
+        this.blueBan[2], // 5
+        this.blueBan[3], // 6
+        this.redBan[1], // 7
+        this.redBan[0], // 8
+        this.blueBan[0], // 9
+      ];
+
+      switch (this.clickCount) {
+        case 0:
+          this.redBan[4] = clickedChampionInfo.img || "";
+          break;
+        case 1:
+          this.blueBan[0] = clickedChampionInfo.img || "";
+          break;
+        case 2:
+          this.blueBan[1] = clickedChampionInfo.img || "";
+          break;
+        case 3:
+          this.redBan[3] = clickedChampionInfo.img || "";
+          break;
+        case 4:
+          this.redBan[2] = clickedChampionInfo.img || "";
+          break;
+        case 5:
+          this.blueBan[2] = clickedChampionInfo.img || "";
+          break;
+        case 6:
+          this.blueBan[3] = clickedChampionInfo.img || "";
+          break;
+        case 7:
+          this.redBan[1] = clickedChampionInfo.img || "";
+          break;
+        case 8:
+          this.redBan[0] = clickedChampionInfo.img || "";
+          break;
+        case 9:
+          this.blueBan[0] = clickedChampionInfo.img || "";
+          break;
+      }
+      this.clickCount += 1;
+      console.log(this.redBan, this.blueBan);
     },
   },
 });
