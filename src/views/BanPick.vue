@@ -1,6 +1,7 @@
 <template>
   <!-- 밴 현상황 표 -->
   <div class="row">
+    <!-- 레드팀 밴창 -->
     <div class="col">
       <div class="d-flex justify-content-center">
         <img
@@ -12,6 +13,7 @@
         />
       </div>
     </div>
+    <!-- 블루팀 밴창 -->
     <div class="col">
       <div class="d-flex justify-content-center">
         <img
@@ -35,40 +37,64 @@
       {{ line }}
     </button>
   </div>
-  <div class="row justify-content-center">
-    <!-- 챔피언 초상화 영역 -->
-    <template v-for="(champ, index) in champions" :key="champ.name">
-      <!-- 기본 화면 -->
-      <li class="col-1" v-if="clickedLine === ''">
-        <div>
-          <img
-            :src="`${champ.img}`"
-            @click="championPick(champ, index)"
-            class="img-thumbnail mx-auto champion-info-img"
-          />
-          <div
-            class="fw-bold badge bg-primary text-center text-truncate mx-auto"
-          >
-            {{ champ.name }}
-          </div>
-        </div>
-      </li>
-      <!-- 카테고리 선택했을 때 -->
-      <li class="col-1" v-else-if="champ.line === clickedLine">
-        <div>
-          <img
-            :src="`${champ.img}`"
-            @click="championPick(champ, index)"
-            class="img-thumbnail mx-auto champion-info-img"
-          />
-          <div
-            class="fw-bold badge bg-primary text-center text-truncate mx-auto"
-          >
-            {{ champ.name }}
-          </div>
-        </div>
-      </li>
-    </template>
+  <div class="row">
+    <!-- 레드팀 픽창 -->
+    <div class="col-2">
+      <img
+        class="pt-3 img-thumbnail"
+        v-for="(red, index) in redPick"
+        :key="index"
+        :src="red"
+        @error="replaceImg"
+      />
+    </div>
+    <div class="col">
+      <div class="justify-content-center">
+        <!-- 챔피언 초상화 영역 -->
+        <template v-for="(champ, index) in champions" :key="champ.name">
+          <!-- 기본 화면 -->
+          <li class="col-1" v-if="clickedLine === ''">
+            <div>
+              <img
+                :src="`${champ.img}`"
+                @click="championPick(champ, index)"
+                class="img-thumbnail mx-auto champion-info-img"
+              />
+              <div
+                class="fw-bold badge bg-primary text-center text-truncate mx-auto"
+              >
+                {{ champ.name }}
+              </div>
+            </div>
+          </li>
+          <!-- 카테고리 선택했을 때 -->
+          <li class="col-1" v-else-if="champ.line === clickedLine">
+            <div>
+              <img
+                :src="`${champ.img}`"
+                @click="championPick(champ, index)"
+                class="img-thumbnail mx-auto champion-info-img"
+              />
+              <div
+                class="fw-bold badge bg-primary text-center text-truncate mx-auto"
+              >
+                {{ champ.name }}
+              </div>
+            </div>
+          </li>
+        </template>
+      </div>
+    </div>
+    <!-- 블루팀 픽창 -->
+    <div class="col-2">
+      <img
+        class="pt-3 img-thumbnail"
+        v-for="(blue, index) in bluePick"
+        :key="index"
+        :src="blue"
+        @error="replaceImg"
+      />
+    </div>
   </div>
 </template>
 
@@ -93,7 +119,9 @@ export default defineComponent({
     const propChampionImage = ""; // 클릭한 챔피언의 이미지
     const lineList: string[] = ["탑", "정글", "미드", "원딜", "서폿", "전체"]; // 라인 카테고리
     const redBan: string[] = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황
-    const blueBan: string[] = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황
+    const blueBan: string[] = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황    const redBan: string[] = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황
+    const redPick: string[] = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황
+    const bluePick: string[] = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황
     const clickCount = 0;
     const clickedLine = ""; // 클릭된 라인
     return {
@@ -109,6 +137,8 @@ export default defineComponent({
       clickedLine,
       redBan,
       blueBan,
+      redPick,
+      bluePick,
       clickCount,
     };
   },
@@ -185,7 +215,7 @@ export default defineComponent({
           this.redBan[0] = clickedChampionInfo.img || "";
           break;
         case 9:
-          this.blueBan[0] = clickedChampionInfo.img || "";
+          this.blueBan[4] = clickedChampionInfo.img || "";
           break;
       }
       this.clickCount += 1;
