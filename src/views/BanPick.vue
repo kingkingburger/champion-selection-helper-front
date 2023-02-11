@@ -37,9 +37,9 @@
       {{ line }}
     </button>
   </div>
-  <div class="row">
+  <div class="row justify-content-center">
     <!-- 레드팀 픽창 -->
-    <div class="col-2">
+    <div class="col-3 pick-img">
       <img
         class="pt-3 img-thumbnail"
         v-for="(red, index) in redPick"
@@ -48,7 +48,7 @@
         @error="replaceImg"
       />
     </div>
-    <div class="col">
+    <div class="col-6">
       <div class="justify-content-center">
         <!-- 챔피언 초상화 영역 -->
         <template v-for="(champ, index) in champions" :key="champ.name">
@@ -86,7 +86,7 @@
       </div>
     </div>
     <!-- 블루팀 픽창 -->
-    <div class="col-2">
+    <div class="col-3 pick-img">
       <img
         class="pt-3 img-thumbnail"
         v-for="(blue, index) in bluePick"
@@ -219,7 +219,6 @@ export default defineComponent({
           break;
       }
       this.clickCount += 1;
-      console.log(this.redBan, this.blueBan);
     },
   },
 });
@@ -290,5 +289,8 @@ a {
 
 .champion-info-img {
   width: 5rem;
+}
+.pick-img {
+  width: 7rem;
 }
 </style>
