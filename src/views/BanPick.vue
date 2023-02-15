@@ -173,52 +173,88 @@ export default defineComponent({
       else if (lineIndex === 5) this.clickedLine = "";
     },
     championPick(clickedChampionInfo: champInfo, index: number) {
-      const banSequence = [
-        this.redBan[4], // 0
-        this.blueBan[0], //1
-        this.blueBan[1], // 2
-        this.redBan[3], //3
-        this.redBan[2], //4
-        this.blueBan[2], // 5
-        this.blueBan[3], // 6
-        this.redBan[1], // 7
-        this.redBan[0], // 8
-        this.blueBan[0], // 9
-      ];
-
+      const clickChamp = clickedChampionInfo.img || "";
       switch (this.clickCount) {
         case 0:
-          this.redBan[4] = clickedChampionInfo.img || "";
+          this.redBan[4] = clickChamp;
           break;
         case 1:
-          this.blueBan[0] = clickedChampionInfo.img || "";
+          this.blueBan[0] = clickChamp;
           break;
         case 2:
-          this.blueBan[1] = clickedChampionInfo.img || "";
+          this.blueBan[1] = clickChamp;
           break;
         case 3:
-          this.redBan[3] = clickedChampionInfo.img || "";
+          this.redBan[3] = clickChamp;
           break;
         case 4:
-          this.redBan[2] = clickedChampionInfo.img || "";
+          this.redBan[2] = clickChamp;
           break;
         case 5:
-          this.blueBan[2] = clickedChampionInfo.img || "";
+          this.blueBan[2] = clickChamp;
           break;
         case 6:
-          this.blueBan[3] = clickedChampionInfo.img || "";
+          this.blueBan[3] = clickChamp;
           break;
         case 7:
-          this.redBan[1] = clickedChampionInfo.img || "";
+          this.redBan[1] = clickChamp;
           break;
         case 8:
-          this.redBan[0] = clickedChampionInfo.img || "";
+          this.redBan[0] = clickChamp;
           break;
         case 9:
-          this.blueBan[4] = clickedChampionInfo.img || "";
+          this.blueBan[4] = clickChamp;
+          break;
+        // 픽 시작
+        case 10:
+          this.redPick[0] = clickChamp;
+          break;
+        case 11:
+          this.bluePick[0] = clickChamp;
+          break;
+        case 12:
+          this.bluePick[1] = clickChamp;
+          break;
+        case 13:
+          this.redPick[1] = clickChamp;
+          break;
+        case 14:
+          this.redPick[2] = clickChamp;
+          break;
+        case 15:
+          this.bluePick[2] = clickChamp;
+          break;
+        case 16:
+          this.bluePick[3] = clickChamp;
+          break;
+        case 17:
+          this.redPick[3] = clickChamp;
+          break;
+        case 18:
+          this.redPick[4] = clickChamp;
+          break;
+        case 19:
+          this.bluePick[4] = clickChamp;
           break;
       }
       this.clickCount += 1;
+
+      // const redBan = this.redBan;
+      // const blueBan = this.blueBan;
+      // const clickCount = this.clickCount;
+      // const img = clickedChampionInfo.img || "";
+      //
+      // const pickOrder = [4, 0, 1, 3, 2, 2, 3, 1, 0, 4];
+      // const redOrBlue = Math.floor(clickCount / 5);
+      // const pickIndex = pickOrder[clickCount % 5];
+      //
+      // if (redOrBlue === 0) {
+      //   redBan[pickIndex] = img;
+      // } else {
+      //   blueBan[pickIndex] = img;
+      // }
+      //
+      // this.clickCount += 1;
     },
   },
 });
