@@ -48,6 +48,7 @@
         @error="replaceImg"
       />
     </div>
+    <!-- 챔피언 영역-->
     <div class="col-6">
       <div class="justify-content-center">
         <!-- 챔피언 초상화 영역 -->
@@ -172,75 +173,103 @@ export default defineComponent({
       else if (lineIndex === 4) this.clickedLine = "sup";
       else if (lineIndex === 5) this.clickedLine = "";
     },
+    deleteChampion(index: number) {
+      this.champions[index].img = "";
+      this.champions[index].name = "";
+    },
     championPick(clickedChampionInfo: champInfo, index: number) {
       const clickChamp = clickedChampionInfo.img || "";
+      const redBan = this.redBan;
+      const blueBan = this.blueBan;
+      const redPick = this.redPick;
+      const bluePick = this.bluePick;
       switch (this.clickCount) {
         case 0:
-          this.redBan[4] = clickChamp;
+          redBan[4] = clickChamp;
+          this.deleteChampion(index);
           break;
         case 1:
-          this.blueBan[0] = clickChamp;
+          blueBan[0] = clickChamp;
+          this.deleteChampion(index);
           break;
         case 2:
-          this.blueBan[1] = clickChamp;
+          blueBan[1] = clickChamp;
+          this.deleteChampion(index);
           break;
         case 3:
-          this.redBan[3] = clickChamp;
+          redBan[3] = clickChamp;
+          this.deleteChampion(index);
           break;
         case 4:
-          this.redBan[2] = clickChamp;
+          redBan[2] = clickChamp;
+          this.deleteChampion(index);
           break;
         case 5:
-          this.blueBan[2] = clickChamp;
+          blueBan[2] = clickChamp;
+          this.deleteChampion(index);
           break;
         case 6:
-          this.blueBan[3] = clickChamp;
+          blueBan[3] = clickChamp;
+          this.deleteChampion(index);
           break;
         case 7:
-          this.redBan[1] = clickChamp;
+          redBan[1] = clickChamp;
+          this.deleteChampion(index);
           break;
         case 8:
-          this.redBan[0] = clickChamp;
+          redBan[0] = clickChamp;
+          this.deleteChampion(index);
           break;
         case 9:
-          this.blueBan[4] = clickChamp;
+          blueBan[4] = clickChamp;
+          this.deleteChampion(index);
           break;
         // 픽 시작
         case 10:
-          this.redPick[0] = clickChamp;
+          redPick[0] = clickChamp;
+          this.deleteChampion(index);
           break;
         case 11:
-          this.bluePick[0] = clickChamp;
+          bluePick[0] = clickChamp;
+          this.deleteChampion(index);
           break;
         case 12:
-          this.bluePick[1] = clickChamp;
+          bluePick[1] = clickChamp;
+          this.deleteChampion(index);
           break;
         case 13:
-          this.redPick[1] = clickChamp;
+          redPick[1] = clickChamp;
+          this.deleteChampion(index);
           break;
         case 14:
-          this.redPick[2] = clickChamp;
+          redPick[2] = clickChamp;
+          this.deleteChampion(index);
           break;
         case 15:
-          this.bluePick[2] = clickChamp;
+          bluePick[2] = clickChamp;
+          this.deleteChampion(index);
           break;
         case 16:
-          this.bluePick[3] = clickChamp;
+          bluePick[3] = clickChamp;
+          this.deleteChampion(index);
           break;
         case 17:
-          this.redPick[3] = clickChamp;
+          redPick[3] = clickChamp;
+          this.deleteChampion(index);
           break;
         case 18:
-          this.redPick[4] = clickChamp;
+          redPick[4] = clickChamp;
+          this.deleteChampion(index);
           break;
         case 19:
-          this.bluePick[4] = clickChamp;
+          bluePick[4] = clickChamp;
+          this.deleteChampion(index);
           break;
       }
       this.clickCount += 1;
 
-      // const redBan = this.redBan;
-      // const blueBan = this.blueBan;
+      // const redBan = redBan;
+      // const blueBan = blueBan;
       // const clickCount = this.clickCount;
       // const img = clickedChampionInfo.img || "";
       //
