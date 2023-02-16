@@ -178,112 +178,43 @@ export default defineComponent({
       this.champions[index].name = "";
     },
     championPick(clickedChampionInfo: champInfo, index: number) {
+      const clickCount = this.clickCount;
       const clickChamp = clickedChampionInfo.img || "";
       const redBan = this.redBan;
       const blueBan = this.blueBan;
       const redPick = this.redPick;
       const bluePick = this.bluePick;
-      switch (this.clickCount) {
-        case 0:
-          redBan[4] = clickChamp;
-          this.deleteChampion(index);
-          break;
-        case 1:
-          blueBan[0] = clickChamp;
-          this.deleteChampion(index);
-          break;
-        case 2:
-          blueBan[1] = clickChamp;
-          this.deleteChampion(index);
-          break;
-        case 3:
-          redBan[3] = clickChamp;
-          this.deleteChampion(index);
-          break;
-        case 4:
-          redBan[2] = clickChamp;
-          this.deleteChampion(index);
-          break;
-        case 5:
-          blueBan[2] = clickChamp;
-          this.deleteChampion(index);
-          break;
-        case 6:
-          blueBan[3] = clickChamp;
-          this.deleteChampion(index);
-          break;
-        case 7:
-          redBan[1] = clickChamp;
-          this.deleteChampion(index);
-          break;
-        case 8:
-          redBan[0] = clickChamp;
-          this.deleteChampion(index);
-          break;
-        case 9:
-          blueBan[4] = clickChamp;
-          this.deleteChampion(index);
-          break;
-        // 픽 시작
-        case 10:
-          redPick[0] = clickChamp;
-          this.deleteChampion(index);
-          break;
-        case 11:
-          bluePick[0] = clickChamp;
-          this.deleteChampion(index);
-          break;
-        case 12:
-          bluePick[1] = clickChamp;
-          this.deleteChampion(index);
-          break;
-        case 13:
-          redPick[1] = clickChamp;
-          this.deleteChampion(index);
-          break;
-        case 14:
-          redPick[2] = clickChamp;
-          this.deleteChampion(index);
-          break;
-        case 15:
-          bluePick[2] = clickChamp;
-          this.deleteChampion(index);
-          break;
-        case 16:
-          bluePick[3] = clickChamp;
-          this.deleteChampion(index);
-          break;
-        case 17:
-          redPick[3] = clickChamp;
-          this.deleteChampion(index);
-          break;
-        case 18:
-          redPick[4] = clickChamp;
-          this.deleteChampion(index);
-          break;
-        case 19:
-          bluePick[4] = clickChamp;
-          this.deleteChampion(index);
-          break;
-      }
-      this.clickCount += 1;
+      // red = 0, blue = 1
+      const banSequence = [0, 1, 1, 0, 0, 1, 1, 0, 0, 1];
+      const banIndex = [4, 0, 1, 3, 2, 2, 3, 1, 0, 4];
+      const pickSequence = [0, 1, 1, 0, 0, 1, 1, 0, 0, 1];
+      const pickIndex = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4];
 
-      // const redBan = redBan;
-      // const blueBan = blueBan;
-      // const clickCount = this.clickCount;
-      // const img = clickedChampionInfo.img || "";
-      //
-      // const pickOrder = [4, 0, 1, 3, 2, 2, 3, 1, 0, 4];
-      // const redOrBlue = Math.floor(clickCount / 5);
-      // const pickIndex = pickOrder[clickCount % 5];
-      //
-      // if (redOrBlue === 0) {
-      //   redBan[pickIndex] = img;
-      // } else {
-      //   blueBan[pickIndex] = img;
-      // }
-      //
-      // this.clickCount += 1;
+      const banStation = banIndex[clickCount];
+      // 밴 순서랑 픽 순서랑 배열로 묶어놓으면 되지 않을까?..
+
+      // 밴 순서
+      if (banSequence[clickCount] === 0) {
+        // redTeam
+        redBan[banStation] = clickChamp;
+      } else {
+        // blueTeam
+        blueBan[banStation] = clickChamp;
+      }
+
+      // 픽 순서
+      const pickStation = pickIndex[clickCount % 10];
+      if (clickCount >= 10 && pickSequence[clickCount % 10] === 0) {
+        // redTeam
+        redPick[pickStation] = clickChamp;
+      } else if (clickCount >= 10 && pickSequence[clickCount % 10] === 1) {
+        // blueTeam
+        bluePick[pickStation] = clickChamp;
+      }
+
+      this.deleteChampion(index);
+
+      this.clickCount += 1;
     },
   },
 });
