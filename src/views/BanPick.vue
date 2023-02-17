@@ -113,11 +113,6 @@ export default defineComponent({
       process.env.VUE_APP_API_SERVER_URL || "http://localhost:3586";
     const champions: champInfo[] = [];
     const lolVersion = ""; // lol 버전
-    const choiseChampion = "";
-    const apiResult = {};
-    const overedChampion = ""; // 선택된 챔피언
-    const checkChamp = ""; // 클릭한 챔피언
-    const propChampionImage = ""; // 클릭한 챔피언의 이미지
     const lineList: string[] = ["탑", "정글", "미드", "원딜", "서폿", "전체"]; // 라인 카테고리
     const redBan: string[] = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황
     const blueBan: string[] = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황    const redBan: string[] = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황
@@ -129,11 +124,6 @@ export default defineComponent({
       apiURL: apiURL,
       champions,
       lolVersion,
-      choiseChampion,
-      apiResult,
-      overedChampion,
-      checkChamp,
-      propChampionImage,
       lineList,
       clickedLine,
       redBan,
@@ -174,11 +164,11 @@ export default defineComponent({
       else if (lineIndex === 5) this.clickedLine = "";
     },
     deleteChampion(index: number) {
-      this.champions[index].img = "";
-      this.champions[index].name = "";
+      this.champions[index].img = require(`../assets/logo.png`);
+      this.champions[index].name = "선택됨";
     },
     championPick(clickedChampionInfo: champInfo, index: number) {
-      const clickCount = this.clickCount;
+      let clickCount = this.clickCount;
       const clickChamp = clickedChampionInfo.img || "";
       const redBan = this.redBan;
       const blueBan = this.blueBan;
@@ -203,18 +193,21 @@ export default defineComponent({
       }
 
       // 픽 순서
-      const pickStation = pickIndex[clickCount % 10];
-      if (clickCount >= 10 && pickSequence[clickCount % 10] === 0) {
-        // redTeam
-        redPick[pickStation] = clickChamp;
-      } else if (clickCount >= 10 && pickSequence[clickCount % 10] === 1) {
-        // blueTeam
-        bluePick[pickStation] = clickChamp;
+      if (clickCount <= 19) {
+        const pickStation = pickIndex[clickCount % 10];
+        if (clickCount >= 10 && pickSequence[clickCount % 10] === 0) {
+          // redTeam
+          redPick[pickStation] = clickChamp;
+        } else if (clickCount >= 10 && pickSequence[clickCount % 10] === 1) {
+          // blueTeam
+          bluePick[pickStation] = clickChamp;
+        }
+        this.deleteChampion(index);
+
+        this.clickCount += 1;
       }
 
-      this.deleteChampion(index);
-
-      this.clickCount += 1;
+      console.log(clickCount);
     },
   },
 });
