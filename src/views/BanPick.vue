@@ -62,7 +62,11 @@
                 class="img-thumbnail mx-auto champion-info-img"
               />
               <div
-                class="fw-bold badge bg-primary text-center text-truncate mx-auto"
+                :class="
+                  champ.name === '선택됨'
+                    ? 'bg-danger fw-bold badge text-center text-truncate mx-auto'
+                    : 'bg-primary fw-bold badge text-center text-truncate mx-auto'
+                "
               >
                 {{ champ.name }}
               </div>
@@ -77,7 +81,11 @@
                 class="img-thumbnail mx-auto champion-info-img"
               />
               <div
-                class="fw-bold badge bg-primary text-center text-truncate mx-auto"
+                :class="
+                  champ.name === '선택됨'
+                    ? 'bg-danger fw-bold badge text-center text-truncate mx-auto'
+                    : 'bg-primary fw-bold badge text-center text-truncate mx-auto'
+                "
               >
                 {{ champ.name }}
               </div>
@@ -206,8 +214,6 @@ export default defineComponent({
 
         this.clickCount += 1;
       }
-
-      console.log(clickCount);
     },
   },
 });
