@@ -1,4 +1,9 @@
 <template>
+  <div class="d-flex justify-content-center">
+    <button @click.prevent="initialize">
+      <font-awesome-icon icon="fa-rotate-right" size="100" />
+    </button>
+  </div>
   <!-- 밴 현상황 표 -->
   <div class="row">
     <!-- 레드팀 밴창 -->
@@ -13,6 +18,7 @@
         />
       </div>
     </div>
+
     <!-- 블루팀 밴창 -->
     <div class="col">
       <div class="d-flex justify-content-center">
@@ -111,7 +117,6 @@
 import { defineComponent } from "vue";
 
 import axios from "axios";
-
 export default defineComponent({
   name: "CampionHome",
   //다른 컴포넌트를 쓰고 싶을 때
@@ -121,11 +126,11 @@ export default defineComponent({
       process.env.VUE_APP_API_SERVER_URL || "http://localhost:3586";
     const champions: champInfo[] = [];
     const lolVersion = ""; // lol 버전
-    const lineList: string[] = ["탑", "정글", "미드", "원딜", "서폿", "전체"]; // 라인 카테고리
-    const redBan: string[] = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황
-    const blueBan: string[] = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황    const redBan: string[] = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황
-    const redPick: string[] = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황
-    const bluePick: string[] = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황
+    const lineList: string[] = []; // 라인 카테고리
+    const redBan: string[] = []; // 왼쪽 라인 밴 상황
+    const blueBan: string[] = []; // 왼쪽 라인 밴 상황
+    const redPick: string[] = []; // 왼쪽 라인 밴 상황
+    const bluePick: string[] = []; // 왼쪽 라인 밴 상황
     const clickCount = 0;
     const clickedLine = ""; // 클릭된 라인
     return {
@@ -143,18 +148,10 @@ export default defineComponent({
   },
   compatConfig: { MODE: 3 },
   async mounted() {
-    try {
-      this.lolVersion = await (
-        await axios.get(`${this.apiURL}/champion/version`)
-      ).data;
-      const responseByMadeApi = await (
-        await axios.get<Array<champInfo>>(`${this.apiURL}/champion`)
-      ).data;
-
-      this.champions = responseByMadeApi; // db안에 있는 전체 테이블
-    } catch (err) {
-      console.error(err);
-    }
+    this.lolVersion = await (
+      await axios.get(`${this.apiURL}/champion/version`)
+    ).data;
+    await this.initialize();
   },
   methods: {
     replaceImg(e: { target: { src: string } }) {
@@ -214,6 +211,24 @@ export default defineComponent({
 
         this.clickCount += 1;
       }
+    },
+
+    async initialize() {
+      try {
+        const responseByMadeApi = await (
+          await axios.get<Array<champInfo>>(`${this.apiURL}/champion`)
+        ).data;
+        this.champions = responseByMadeApi; // db안에 있는 전체 테이블
+      } catch (err) {
+        console.error(err);
+      }
+      this.lineList = ["탑", "정글", "미드", "원딜", "서폿", "전체"]; // 라인 카테고리
+      this.redBan = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황
+      this.blueBan = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황
+      this.redPick = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황
+      this.bluePick = ["1", "2", "3", "4", "5"]; // 왼쪽 라인 밴 상황
+      this.clickCount = 0;
+      this.clickedLine = ""; // 클릭된 라인
     },
   },
 });
