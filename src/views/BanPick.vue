@@ -3,6 +3,7 @@
     <button @click.prevent="initialize">
       <font-awesome-icon icon="fa-rotate-right" size="100" />
     </button>
+    <button @click.prevent="championPickInContest">대회</button>
   </div>
   <!-- 밴 현상황 표 -->
   <div class="row">
@@ -63,9 +64,9 @@
           <li class="col-1" v-if="clickedLine === ''">
             <div>
               <img
-                :src="`${champ.img}`"
-                @click="championPick(champ, index)"
+                @click="championPickInContest(champ, index)"
                 class="img-thumbnail mx-auto champion-info-img"
+                @error="replaceImg"
               />
               <div
                 :class="
@@ -78,13 +79,15 @@
               </div>
             </div>
           </li>
+          <!-- :src="`${champ.img}`"-->
+
           <!-- 카테고리 선택했을 때 -->
           <li class="col-1" v-else-if="champ.line === clickedLine">
             <div>
               <img
-                :src="`${champ.img}`"
-                @click="championPick(champ, index)"
+                @click="championPickInContest(champ, index)"
                 class="img-thumbnail mx-auto champion-info-img"
+                @error="replaceImg"
               />
               <div
                 :class="
@@ -230,19 +233,75 @@ export default defineComponent({
       this.clickCount = 0;
       this.clickedLine = ""; // 클릭된 라인
     },
+    championPickInContest(clickedChampionInfo: champInfo, index: number) {
+      let clickCount = this.clickCount;
+      const clickChamp = clickedChampionInfo.img || "";
+      const redBan = this.redBan;
+      const blueBan = this.blueBan;
+      const redPick = this.redPick;
+      const bluePick = this.bluePick;
+      // red = 0, blue = 1
+      const banSequence = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1];
+      const banIndex = [4, 0, 3, 1, 2, 2, 1, 3, 0, 4];
+      const pickSequence = [0, 1, 1, 0, 0, 1, 1, 0, 0, 1];
+      const pickIndex = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4];
+
+      const banStation = banIndex[clickCount];
+      // 밴 순서랑 픽 순서랑 배열로 묶어놓으면 되지 않을까?..
+
+      // 밴 순서
+      if (clickCount < 6) {
+        if (banSequence[clickCount] === 0) {
+          // redTeam
+          redBan[banStation] = clickChamp;
+        } else {
+          // blueTeam
+          blueBan[banStation] = clickChamp;
+        }
+      }
+
+      // 픽 순서
+      if (clickCount >= 6 && clickCount < 12) {
+        const pickStation = pickIndex[clickCount % 6];
+        const redBlue = pickSequence[clickCount % 6];
+        if (redBlue === 0) {
+          // redTeam
+          redPick[pickStation] = clickChamp;
+        } else if (redBlue === 1) {
+          // blueTeam
+          bluePick[pickStation] = clickChamp;
+        }
+      }
+
+      // 밴 순서
+      if (clickCount >= 12 && clickCount < 16) {
+        const banStation = banIndex[clickCount - 6];
+        if (banSequence[clickCount - 6] === 0) {
+          // redTeam
+          redBan[banStation] = clickChamp;
+        } else {
+          // blueTeam
+          blueBan[banStation] = clickChamp;
+        }
+      }
+
+      if (clickCount >= 16) {
+        const pickStation = pickIndex[clickCount % 10];
+        const redBlue = pickSequence[clickCount % 10];
+        if (redBlue === 0) {
+          // redTeam
+          redPick[pickStation] = clickChamp;
+        } else if (redBlue === 1) {
+          // blueTeam
+          bluePick[pickStation] = clickChamp;
+        }
+      }
+      // this.deleteChampion(index);
+
+      this.clickCount += 1;
+    },
   },
 });
-
-interface championData {
-  data: any;
-}
-
-interface champ {
-  name: string;
-  image: any;
-  bestRate1: string;
-  line: string;
-}
 
 export interface champInfo {
   id?: number;
