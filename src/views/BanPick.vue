@@ -64,9 +64,9 @@
           <li class="col-1" v-if="clickedLine === ''">
             <div>
               <img
+                :src="`${champ.img}`"
                 @click="championPickInContest(champ, index)"
                 class="img-thumbnail mx-auto champion-info-img"
-                @error="replaceImg"
               />
               <div
                 :class="
@@ -85,9 +85,9 @@
           <li class="col-1" v-else-if="champ.line === clickedLine">
             <div>
               <img
+                :src="`${champ.img}`"
                 @click="championPickInContest(champ, index)"
                 class="img-thumbnail mx-auto champion-info-img"
-                @error="replaceImg"
               />
               <div
                 :class="
@@ -235,6 +235,7 @@ export default defineComponent({
     },
     championPickInContest(clickedChampionInfo: champInfo, index: number) {
       let clickCount = this.clickCount;
+      if (clickCount > 19) return;
       const clickChamp = clickedChampionInfo.img || "";
       const redBan = this.redBan;
       const blueBan = this.blueBan;
@@ -296,7 +297,7 @@ export default defineComponent({
           bluePick[pickStation] = clickChamp;
         }
       }
-      // this.deleteChampion(index);
+      this.deleteChampion(index);
 
       this.clickCount += 1;
     },

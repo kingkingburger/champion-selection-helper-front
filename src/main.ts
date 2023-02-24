@@ -5,11 +5,9 @@ import store from "./store";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import ToastPlugin, { useToast } from "vue-toast-notification";
-import BootstrapVue from "bootstrap-vue";
-// createApp(App).use(store).use(router).mount("#app");
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome/index";
+import { faRotateRight } from "@fortawesome/free-solid-svg-icons/faRotateRight";
+import { library } from "@fortawesome/fontawesome-svg-core/index";
 
 const app = createApp(App);
 app.use(store);
