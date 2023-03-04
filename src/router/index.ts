@@ -2,6 +2,7 @@ import CampionHomes from "@/views/Champion.vue";
 // import CampionHome from "@/components/Champion.vue";
 import BanRecomend from "@/components/RecomandChampion.vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import TestPage from "@/views/TestPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -24,6 +25,11 @@ const routes: Array<RouteRecordRaw> = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/BanPick.vue"),
+  },
+  {
+    path: "/test",
+    name: "TestPage",
+    component: TestPage,
   },
 ];
 

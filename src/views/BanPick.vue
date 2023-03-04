@@ -4,7 +4,11 @@
       <font-awesome-icon icon="fa-rotate-right" size="100" />
     </button>
     <button @click.prevent="championPickInContest">대회</button>
+    <button @click.prevent="blueTeam">블루</button>
+    <button @click.prevent="redTeam">레드</button>
   </div>
+  <div>팀 상황{{ team }}</div>
+
   <!-- 밴 현상황 표 -->
   <div class="row">
     <!-- 레드팀 밴창 -->
@@ -65,7 +69,7 @@
             <div>
               <img
                 :src="`${champ.img}`"
-                @click="championPickInContest(champ, index)"
+                @click="championPick(champ, index)"
                 class="img-thumbnail mx-auto champion-info-img"
               />
               <div
@@ -86,7 +90,7 @@
             <div>
               <img
                 :src="`${champ.img}`"
-                @click="championPickInContest(champ, index)"
+                @click="championPick(champ, index)"
                 class="img-thumbnail mx-auto champion-info-img"
               />
               <div
@@ -136,6 +140,7 @@ export default defineComponent({
     const bluePick: string[] = []; // 왼쪽 라인 밴 상황
     const clickCount = 0;
     const clickedLine = ""; // 클릭된 라인
+    const team = "red"; //레드팀, 블루팀 확인
     return {
       apiURL: apiURL,
       champions,
@@ -147,7 +152,18 @@ export default defineComponent({
       redPick,
       bluePick,
       clickCount,
+      team,
     };
+  },
+  computed: {
+    // badgeClass(champ: chga) {
+    //   return {
+    //     "bg-danger fw-bold badge text-center text-truncate mx-auto":
+    //       this.champ.name === "선택됨",
+    //     "bg-primary fw-bold badge text-center text-truncate mx-auto":
+    //       this.champ.name !== "선택됨",
+    //   };
+    // },
   },
   compatConfig: { MODE: 3 },
   async mounted() {
@@ -183,11 +199,19 @@ export default defineComponent({
       const redPick = this.redPick;
       const bluePick = this.bluePick;
       // red = 0, blue = 1
-      const banSequence = [0, 1, 1, 0, 0, 1, 1, 0, 0, 1];
-      const banIndex = [4, 0, 1, 3, 2, 2, 3, 1, 0, 4];
-      const pickSequence = [0, 1, 1, 0, 0, 1, 1, 0, 0, 1];
+      const banSequence =
+        this.team === "red"
+          ? [0, 1, 1, 0, 0, 1, 1, 0, 0, 1]
+          : [1, 0, 0, 1, 1, 0, 0, 1, 1, 0];
+      const banIndex =
+        this.team === "red"
+          ? [4, 0, 1, 3, 2, 2, 3, 1, 0, 4]
+          : [0, 4, 3, 1, 2, 2, 1, 3, 4, 0];
+      const pickSequence =
+        this.team === "red"
+          ? [0, 1, 1, 0, 0, 1, 1, 0, 0, 1]
+          : [1, 0, 0, 1, 1, 0, 0, 1, 1, 0];
       const pickIndex = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4];
-
       const banStation = banIndex[clickCount];
       // 밴 순서랑 픽 순서랑 배열로 묶어놓으면 되지 않을까?..
 
@@ -300,6 +324,41 @@ export default defineComponent({
       this.deleteChampion(index);
 
       this.clickCount += 1;
+    },
+    // championPickInContest(clickedChampionInfo: champInfo, index: number) {
+    //   const { redBan, blueBan, redPick, bluePick } = this;
+    //   const isRedTeam = this.clickCount % 2 === 0;
+    //
+    //   if (this.clickCount > 19) {
+    //     return;
+    //   }
+    //
+    //   const clickChamp = clickedChampionInfo.img || "";
+    //   const isBanPhase = this.clickCount < 6 || (this.clickCount >= 12 && this.clickCount < 16);
+    //   const isPickPhase = this.clickCount >= 6 && this.clickCount < 16;
+    //
+    //   if (isBanPhase) {
+    //     const banStation = [4, 0, 3, 1, 2][this.clickCount % 5];
+    //     isRedTeam ? redBan[banStation] = clickChamp : blueBan[banStation] = clickChamp;
+    //   } else if (isPickPhase) {
+    //     const pickStation = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4][this.clickCount % 10];
+    //     isRedTeam ? redPick[pickStation] = clickChamp : bluePick[pickStation] = clickChamp;
+    //   } else {
+    //     const pickStation = [0, 1, 1, 0, 0, 1, 1, 0, 0, 1][this.clickCount % 10];
+    //     isRedTeam ? redPick[pickStation] = clickChamp : bluePick[pickStation] = clickChamp;
+    //   }
+    //
+    //   this.deleteChampion(index);
+    //   this.clickCount += 1;
+    // }
+
+    async blueTeam() {
+      this.team = "blue";
+      await this.initialize();
+    },
+    async redTeam() {
+      this.team = "red";
+      await this.initialize();
     },
   },
 });
